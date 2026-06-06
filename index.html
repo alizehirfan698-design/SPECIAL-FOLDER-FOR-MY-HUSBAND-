@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Our Memory Space</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+<style>
+  body {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    background: radial-gradient(circle at top, #050814, #02030a);
+    color: #e8ecff;
+    overflow: hidden;
+  }
+
+  header {
+    text-align: center;
+    padding: 30px;
+    font-size: 26px;
+    letter-spacing: 2px;
+    color: #b8c7ff;
+    opacity: 0;
+    animation: fadeIn 3s forwards;
+  }
+
+  @keyframes fadeIn {
+    to { opacity: 1; }
+  }
+
+  .card {
+    background: rgba(20, 25, 45, 0.55);
+    backdrop-filter: blur(12px);
+    margin: 18px auto;
+    width: 72%;
+    padding: 24px;
+    border-radius: 18px;
+    border: 1px solid rgba(140,160,255,0.08);
+    box-shadow: 0 0 40px rgba(80,120,255,0.05);
+    opacity: 0;
+    animation: fadeIn 3s forwards;
+    animation-delay: 1s;
+  }
+
+  h2 {
+    color: #9fb6ff;
+  }
+
+  p {
+    color: #d6dcff;
+    line-height: 1.8;
+  }
+
+  a {
+    color: #9fb6ff;
+    text-decoration: none;
+  }
+
+  /* 🌙 CINEMATIC STARS (slow drifting) */
+  .star {
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    background: white;
+    border-radius: 50%;
+    box-shadow: 0 0 8px #9fb6ff;
+    animation: drift 25s linear infinite;
+    opacity: 0.5;
+  }
+
+  @keyframes drift {
+    0% { transform: translateY(100vh); opacity: 0; }
+    20% { opacity: 0.6; }
+    100% { transform: translateY(-10vh); opacity: 0; }
+  }
+</style>
+</head>
+
+<body>
+
+<header>OUR MEMORY SPACE</header>
+
+<!-- 🎵 CINEMATIC FADE-IN MUSIC -->
+<audio id="bgm" loop>
+  <source src="song.mp3" type="audio/mpeg">
+</audio>
+
+<div class="card">
+  <h2>Welcome</h2>
+  <p>A place where time slows down… and memories stay.</p>
+</div>
+
+<div class="card">
+  <h2>Memories</h2>
+  <p>5 months of calls, chaos, comfort, and everything we never said but felt.</p>
+</div>
+
+<div class="card">
+  <h2>Message</h2>
+  <p><a href="message.html">Open your letter →</a></p>
+</div>
+
+<script>
+  // 🌙 stars
+  for (let i = 0; i < 60; i++) {
+    let star = document.createElement("div");
+    star.className = "star";
+    star.style.left = Math.random() * 100 + "vw";
+    star.style.top = Math.random() * 100 + "vh";
+    star.style.animationDuration = (20 + Math.random() * 15) + "s";
+    document.body.appendChild(star);
+  }
+
+  // 🎵 FADE-IN MUSIC
+  window.onload = function () {
+    const audio = document.getElementById("bgm");
+    audio.volume = 0;
+
+    let vol = 0;
+    const fade = setInterval(() => {
+      if (vol < 1) {
+        vol += 0.02;
+        audio.volume = vol;
+      } else {
+        clearInterval(fade);
+      }
+    }, 150);
+
+    audio.play().catch(() => {
+      // browser fallback (no crash)
+      console.log("Autoplay blocked");
+    });
+  };
+</script>
+
+</body>
+</html><!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Cinematic Letters 💌</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
+
+<style>
+  body {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    background: radial-gradient(circle at top, #050814, #02030a);
+    color: #e8ecff;
+    padding: 40px 0;
+  }
+
+  header {
+    text-align: center;
+    font-size: 24px;
+    color: #b8c7ff;
+    letter-spacing: 2px;
+    margin-bottom: 30px;
+    opacity: 0;
+    animation: fadeIn 2s forwards;
+  }
+
+  @keyframes fadeIn {
+    to { opacity: 1; }
+  }
+
+  .card {
+    width: 78%;
+    margin: 25px auto;
+    padding: 28px;
+    background: rgba(20, 25, 45, 0.55);
+    backdrop-filter: blur(14px);
+    border-radius: 18px;
+    border: 1px solid rgba(140,160,255,0.10);
+    box-shadow: 0 0 45px rgba(80,120,255,0.06);
+    opacity: 0;
+    transform: translateY(20px);
+    animation: rise 2s forwards;
+  }
+
+  .card:nth-child(2) { animation-delay: 0.5s; }
+  .card:nth-child(3) { animation-delay: 1s; }
+
+  @keyframes rise {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  h2 {
+    color: #9fb6ff;
+    font-weight: 500;
+    margin-bottom: 15px;
+  }
+
+  p {
+    line-height: 1.9;
+    font-size: 15px;
+    color: #d7dcff;
+    white-space: pre-wrap;
+  }
+
+  /* soft cinematic glow */
+  .glow {
+    text-shadow: 0 0 8px rgba(150,180,255,0.25);
+  }
+</style>
+</head>
+
+<body>
+
+<header class="glow">💌 TWO LETTERS</header>
+
+<!-- LETTER 1 (FIRST) -->
+<div class="card">
+
+  <h2>💙 to my best friend, lover and husband</h2>
+
+  <p>
+    i still remember that day when you texted me on reddit and that was the best thing that had ever happend where we started as friends and then one night you asked me "tu muje pasand krti ha  kya?" and then i said confidently and boldly "hann krti hoon " at that time i thought i ruined our friendship and that was the day and here we are 5 months of pure chaos and drama the video calls/normal going from 2 to 3 then 5 hrs a night i loved every bit of it from me standing in the kitchen while cooking and telling you random ass storys about me and my famliy to us sleeping on call hearing you breath and snore made me feel safe and it still does the way you look at me while you feel utter love but couldnt say anything yet the part where you get a little hurt but you dont show it because its not worth it it is worth it your worth every single thing your the best husband ,best friend,lover and much much more , I love you omer I love you the whole you the person are and that your going to become everything i couldnt ask allah for more because usny muje best se best nawaza ha tu meri jaan ha meri zindigi i might not be able to say it but you deserve every bit of love thats left in me and even if im in a different universe i will still choose you to be my husband in every lifetime I love you meri jaan whatever you do means alot to me.
+  </p>
+
+</div>
+
+<!-- LETTER 2 (SECOND) -->
+<div class="card">
+
+  <h2>💙 myyy baba</h2>
+
+  <p>
+I love the fact that you so crazy just like me and whenever i look at you i feel like im at home your my home i love you for the man you becoming and the man that he already is i love him because hes my man the man my heart ached for all this time i love when he notices little things and even tho sometimes somethings bother him he doesnt talk about it but in one way or another he communicates even tho he doesnt want to i love the fact he wants a future with me as much as i want with him and hes the best person in this entire world the agony i been through meant getting him in the end was the best thing that has ever happend to me i might not be the best girlfriend but i would do anything for this guy meri zindigi basti ha tumey omer meri zindingi ka sabse acha hisaa ho tum mere alfaz bayaan bhi na kr paye mere dil me tumary lia jitni mohobat ha meri jaan meri zindigi ho tum mere lia sird ek mamoli say insaan nahi ho omer tum mere ho or ye nazray tumari raah dehktin hain ke kb koi ek text aye or bhaagi chali aon tumary pass tumary kareeb Tum mere liye sirf ek insaan nahi ho… tum woh sukoon ho jo meri rooh ko ghar jaisa lagta hai.the day we started talking was the best day of my life because it made me lead to you omer And if there’s one thing I want you to remember, it’s that I always choose you… even on the days I don’t say it perfectly.
+  </p>
+
+</div>
+
+</body>
+</html>
