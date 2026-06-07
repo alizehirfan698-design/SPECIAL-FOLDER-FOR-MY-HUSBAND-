@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Our Little Quiz 💙</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;1,500&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --blue:#4A90D9;
+  --blue-soft:#5BA3E8;
+  --blue-glow:rgba(74,144,217,0.15);
+  --blue-glow2:rgba(74,144,217,0.25);
+  --blue-border:rgba(74,144,217,0.25);
+  --bg:#070d1a;
+  --surface:rgba(10,20,45,0.85);
+  --surface2:rgba(15,28,60,0.9);
+  --text:#e8f0ff;
+  --muted:#7a9cc4;
+  --green:rgba(80,200,120,0.85);
+  --red:rgba(220,80,80,0.85);
+}
+body{
+  font-family:'DM Sans',sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  min-height:100vh;
+  background-image:
+    radial-gradient(ellipse at 15% 20%,rgba(74,144,217,0.12) 0%,transparent 55%),
+    radial-gradient(ellipse at 85% 70%,rgba(50,100,200,0.1) 0%,transparent 55%),
+    radial-gradient(ellipse at 50% 50%,rgba(20,40,100,0.3) 0%,transparent 80%);
+}
+.stars-bg{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden;}
+.star-dot{position:absolute;border-radius:50%;background:#fff;animation:twinkle var(--d) ease-in-out infinite;}
+@keyframes twinkle{0%,100%{opacity:0.05;transform:scale(1)}50%{opacity:0.9;transform:scale(1.4)}}
+.particles{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden;}
+.particle{position:absolute;bottom:-20px;animation:floatUp var(--d) ease-in infinite;animation-delay:var(--delay);}
+@keyframes floatUp{0%{transform:translateY(0) rotate(0deg);opacity:0.7}100%{transform:translateY(-110vh) rotate(360deg);opacity:0}}
+
+/* ── NAV ── */
+nav{display:flex;justify-content:center;gap:8px;padding:1.5rem 1rem 0.5rem;flex-wrap:wrap;position:relative;z-index:1;}
+nav a{padding:8px 20px;border-radius:999px;border:1px solid var(--blue-border);color:var(--muted);font-size:13px;text-decoration:none;transition:all 0.2s;background:transparent;}
+nav a:hover,nav a.active{color:var(--blue-soft);border-color:var(--blue-soft);background:var(--blue-glow);}
+
+/* ── PAGE HEADER ── */
+.page-header{text-align:center;padding:2rem 1rem 1rem;position:relative;z-index:1;}
+.page-header h1{font-family:'Playfair Display',serif;font-size:clamp(1.6rem,4vw,2.4rem);color:var(--text);}
+.page-header h1 span{color:var(--blue-soft);}
+.page-header p{color:var(--muted);font-size:13px;margin-top:0.4rem;letter-spacing:0.04em;}
+
+/* ── WHO SELECTOR ── */
+.who-selector{display:flex;justify-content:center;gap:12px;margin:1.5rem 0;position:relative;z-index:1;}
+.who-btn{
+  padding:10px 28px;border-radius:999px;
+  border:1px solid var(--blue-border);
+  background:transparent;color:var(--muted);
+  font-family:'DM Sans',sans-serif;font-size:14px;
+  cursor:pointer;transition:all 0.25s;
+}
+.who-btn.active,.who-btn:hover{
+  background:var(--blue-glow2);
+  border-color:var(--blue-soft);
+  color:var(--blue-soft);
+}
+
+/* ── MAIN WRAP ── */
+.wrap{max-width:700px;margin:0 auto;padding:0.5rem 1rem 6rem;position:relative;z-index:1;}
+
+/* ── SECTION TITLE ── */
+.section-title{
+  font-family:'Playfair Display',serif;
+  font-size:1.1rem;color:var(--blue-soft);
+  margin:2rem 0 1rem;
+  display:flex;align-items:center;gap:10px;
+}
+.section-title::after{content:'';flex:1;height:1px;background:var(--blue-border);}
+
+/* ── QUIZ CARD ── */
+.quiz-card{
+  background:var(--surface);
+  border:1px solid var(--blue-border);
+  border-radius:20px;
+  padding:1.6rem 1.8rem;
+  margin-bottom:1.2rem;
+  backdrop-filter:blur(12px);
+  box-shadow:0 4px 40px rgba(0,0,0,0.3),inset 0 1px 0 rgba(74,144,217,0.1);
+  position:relative;overflow:hidden;
+  animation:fadeUp 0.5s ease both;
+}
+.quiz-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(74,144,217,0.4),transparent);
+}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+.q-num{font-size:11px;color:var(--muted);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:0.5rem;}
+.q-text{font-family:'Playfair Display',serif;font-size:1.05rem;color:var(--text);margin-bottom:1.2rem;line-height:1.5;}
+.q-emoji{margin-right:6px;}
+
+/* ── OPTIONS ── */
+.options{display:flex;flex-direction:column;gap:8px;}
+.option-btn{
+  padding:10px 16px;border-radius:12px;
+  border:1px solid var(--blue-border);
+  background:rgba(74,144,217,0.05);
+  color:var(--text);font-family:'DM Sans',sans-serif;font-size:14px;
+  cursor:pointer;transition:all 0.2s;text-align:left;
+  position:relative;overflow:hidden;
+}
+.option-btn:hover:not(:disabled){background:var(--blue-glow);border-color:var(--blue-soft);color:var(--blue-soft);}
+.option-btn.correct{background:rgba(80,200,120,0.15);border-color:rgba(80,200,120,0.5);color:#6ee89a;}
+.option-btn.wrong{background:rgba(220,80,80,0.12);border-color:rgba(220,80,80,0.4);color:#f08080;}
+.option-btn.reveal{background:rgba(80,200,120,0.08);border-color:rgba(80,200,120,0.3);color:#6ee89a;}
+.option-btn:disabled{cursor:default;}
+
+.result-msg{
+  margin-top:0.8rem;font-size:13px;
+  padding:8px 14px;border-radius:10px;
+  animation:fadeUp 0.3s ease both;
+  display:none;
+}
+.result-msg.show{display:block;}
+.result-msg.correct-msg{background:rgba(80,200,120,0.1);color:#6ee89a;border:1px solid rgba(80,200,120,0.3);}
+.result-msg.wrong-msg{background:rgba(220,80,80,0.1);color:#f08080;border:1px solid rgba(220,80,80,0.3);}
+
+/* ── SCORE ── */
+.score-bar{
+  background:var(--surface2);
+  border:1px solid var(--blue-border);
+  border-radius:20px;
+  padding:1.4rem 1.8rem;
+  margin-top:1.5rem;
+  text-align:center;
+  animation:fadeUp 0.5s ease both;
+}
+.score-num{font-family:'Playfair Display',serif;font-size:2.5rem;color:var(--blue-soft);}
+.score-label{color:var(--muted);font-size:13px;margin-top:4px;}
+.score-msg{color:var(--text);font-size:15px;margin-top:0.8rem;line-height:1.6;}
+
+/* ── FEEDBACK SECTION ── */
+.feedback-card{
+  background:var(--surface);
+  border:1px solid var(--blue-border);
+  border-radius:20px;
+  padding:1.8rem;
+  margin-bottom:1.2rem;
+  backdrop-filter:blur(12px);
+  box-shadow:0 4px 40px rgba(0,0,0,0.3),inset 0 1px 0 rgba(74,144,217,0.1);
+  position:relative;overflow:hidden;
+  animation:fadeUp 0.5s ease both;
+}
+.feedback-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(74,144,217,0.4),transparent);
+}
+.fb-question{font-family:'Playfair Display',serif;font-size:1rem;color:var(--text);margin-bottom:1rem;line-height:1.5;}
+.fb-emoji{margin-right:6px;}
+
+/* star rating */
+.star-rating{display:flex;gap:8px;margin-bottom:0.5rem;}
+.star{font-size:26px;cursor:pointer;transition:transform 0.15s;filter:grayscale(1) opacity(0.4);}
+.star.lit{filter:none;}
+.star:hover{transform:scale(1.2);}
+
+/* text area */
+.fb-textarea{
+  width:100%;min-height:80px;
+  background:rgba(74,144,217,0.05);
+  border:1px solid var(--blue-border);
+  border-radius:12px;
+  color:var(--text);font-family:'DM Sans',sans-serif;font-size:14px;
+  padding:12px 14px;resize:vertical;outline:none;
+  transition:border-color 0.2s;
+}
+.fb-textarea:focus{border-color:var(--blue-soft);}
+.fb-textarea::placeholder{color:var(--muted);}
+
+/* mood pills */
+.mood-pills{display:flex;flex-wrap:wrap;gap:8px;}
+.mood-pill{
+  padding:7px 16px;border-radius:999px;
+  border:1px solid var(--blue-border);
+  background:transparent;color:var(--muted);
+  font-family:'DM Sans',sans-serif;font-size:13px;
+  cursor:pointer;transition:all 0.2s;
+}
+.mood-pill.selected,.mood-pill:hover{background:var(--blue-glow2);border-color:var(--blue-soft);color:var(--blue-soft);}
+
+/* submit */
+.submit-btn{
+  display:block;width:100%;
+  padding:14px;border-radius:999px;
+  border:1px solid var(--blue-border);
+  background:var(--blue-glow);
+  color:var(--blue-soft);font-family:'DM Sans',sans-serif;font-size:15px;
+  cursor:pointer;transition:all 0.3s;margin-top:1.5rem;
+  box-shadow:0 0 20px rgba(74,144,217,0.1);
+  letter-spacing:0.04em;
+}
+.submit-btn:hover{background:var(--blue-glow2);box-shadow:0 0 30px rgba(74,144,217,0.25);}
+
+/* thank you */
+.thank-you{
+  text-align:center;padding:2rem;
+  display:none;
+  animation:fadeUp 0.6s ease both;
+}
+.thank-you.show{display:block;}
+.ty-emoji{font-size:48px;margin-bottom:1rem;}
+.ty-title{font-family:'Playfair Display',serif;font-size:1.5rem;color:var(--blue-soft);margin-bottom:0.5rem;}
+.ty-sub{color:var(--muted);font-size:14px;}
+
+/* hearts burst */
+.heart-burst{
+  position:fixed;pointer-events:none;z-index:999;
+  font-size:20px;animation:burst 1.2s ease-out forwards;
+}
+@keyframes burst{
+  0%{opacity:1;transform:translate(0,0) scale(1)}
+  100%{opacity:0;transform:translate(var(--tx),var(--ty)) scale(0.3)}
+}
+
+@media(max-width:480px){
+  .quiz-card,.feedback-card{padding:1.2rem 1rem;}
+  .who-selector{flex-direction:column;align-items:center;}
+}
+</style>
+</head>
+<body>
+
+<div class="stars-bg" id="stars-bg"></div>
+<div class="particles" id="particles"></div>
+
+<nav>
+  <a href="index.html">💙 home</a>
+  <a href="gallery.html">📸 our memories</a>
+  <a href="animals.html">🐾 our animal selves</a>
+  <a href="quiz.html" class="active">💌 our quiz</a>
+</nav>
+
+<div class="page-header">
+  <h1>our little <span>quiz & feels</span> 💌</h1>
+  <p>how well do we know each other? let's find out 🐾</p>
+</div>
+
+<!-- WHO IS PLAYING -->
+<div class="who-selector">
+  <button class="who-btn active" onclick="setWho('alizeh', this)">🌙 alizeh</button>
+  <button class="who-btn" onclick="setWho('omer', this)">⭐ omer</button>
+</div>
+
+<div class="wrap">
+
+  <!-- ── QUIZ SECTION ── -->
+  <div class="section-title">💙 the quiz</div>
+
+  <div id="quiz-container"></div>
+
+  <div class="score-bar" id="score-bar" style="display:none">
+    <div class="score-num" id="score-num">0/10</div>
+    <div class="score-label">questions answered correctly</div>
+    <div class="score-msg" id="score-msg"></div>
+  </div>
+
+  <!-- ── FEEDBACK SECTION ── -->
+  <div class="section-title" style="margin-top:3rem;">💬 leave a little message</div>
+
+  <div id="feedback-form">
+
+    <!-- Q1: mood today -->
+    <div class="feedback-card" style="animation-delay:0.05s">
+      <div class="fb-question"><span class="fb-emoji">🌤️</span> what's your mood today?</div>
+      <div class="mood-pills" id="mood-pills">
+        <button class="mood-pill" onclick="selectMood(this)">😊 happy</button>
+        <button class="mood-pill" onclick="selectMood(this)">🥰 in love</button>
+        <button class="mood-pill" onclick="selectMood(this)">😴 sleepy</button>
+        <button class="mood-pill" onclick="selectMood(this)">😂 chaotic</button>
+        <button class="mood-pill" onclick="selectMood(this)">🥺 soft</button>
+        <button class="mood-pill" onclick="selectMood(this)">😤 slightly annoyed lol</button>
+      </div>
+    </div>
+
+    <!-- Q2: rate the relationship -->
+    <div class="feedback-card" style="animation-delay:0.1s">
+      <div class="fb-question"><span class="fb-emoji">⭐</span> rate us as a couple (be honest 😂)</div>
+      <div class="star-rating" id="stars">
+        <span class="star" onclick="rateStar(1)">⭐</span>
+        <span class="star" onclick="rateStar(2)">⭐</span>
+        <span class="star" onclick="rateStar(3)">⭐</span>
+        <span class="star" onclick="rateStar(4)">⭐</span>
+        <span class="star" onclick="rateStar(5)">⭐</span>
+      </div>
+    </div>
+
+    <!-- Q3: one thing you love -->
+    <div class="feedback-card" style="animation-delay:0.15s">
+      <div class="fb-question"><span class="fb-emoji">💙</span> one thing you love about the other person right now?</div>
+      <textarea class="fb-textarea" id="fb-love" placeholder="write anything, even one word 🥺"></textarea>
+    </div>
+
+    <!-- Q4: one complaint (funny) -->
+    <div class="feedback-card" style="animation-delay:0.2s">
+      <div class="fb-question"><span class="fb-emoji">😂</span> okay but one (tiny) complaint — go:</div>
+      <textarea class="fb-textarea" id="fb-complaint" placeholder="safe space, we promise 😭"></textarea>
+    </div>
+
+    <!-- Q5: a wish -->
+    <div class="feedback-card" style="animation-delay:0.25s">
+      <div class="fb-question"><span class="fb-emoji">🌙</span> one thing you wish we did more together?</div>
+      <textarea class="fb-textarea" id="fb-wish" placeholder="a date, a habit, anything 💭"></textarea>
+    </div>
+
+    <!-- Q6: a secret message -->
+    <div class="feedback-card" style="animation-delay:0.3s">
+      <div class="fb-question"><span class="fb-emoji">💌</span> leave a little secret message for them to read later:</div>
+      <textarea class="fb-textarea" id="fb-secret" placeholder="psst... they'll see this 🫶" style="min-height:100px"></textarea>
+    </div>
+
+    <button class="submit-btn" onclick="submitFeedback()">💙 send with love</button>
+  </div>
+
+  <!-- THANK YOU -->
+  <div class="thank-you" id="thank-you">
+    <div class="ty-emoji">💌</div>
+    <div class="ty-title">received with love 💙</div>
+    <div class="ty-sub" id="ty-sub">your words are saved in this little space, forever.</div>
+  </div>
+
+</div>
+
+<script>
+// ── STARS & PARTICLES ──
+const starsEl = document.getElementById('stars-bg');
+for (let i = 0; i < 120; i++) {
+  const s = document.createElement('div'); s.className = 'star-dot';
+  const size = Math.random() * 2 + 0.4;
+  s.style.cssText = `width:${size}px;height:${size}px;left:${Math.random()*100}%;top:${Math.random()*100}%;--d:${(Math.random()*4+1).toFixed(1)}s;animation-delay:${(Math.random()*5).toFixed(1)}s`;
+  starsEl.appendChild(s);
+}
+const pEl = document.getElementById('particles');
+const emojis = ['💙','✨','⭐','💫','🌙','💎'];
+for (let i = 0; i < 12; i++) {
+  const h = document.createElement('div'); h.className = 'particle';
+  h.textContent = emojis[i % emojis.length];
+  h.style.cssText = `left:${Math.random()*100}%;font-size:${Math.random()*8+10}px;--d:${(Math.random()*10+7).toFixed(1)}s;--delay:${(Math.random()*10).toFixed(1)}s`;
+  pEl.appendChild(h);
+}
+
+// ── WHO IS PLAYING ──
+let currentWho = 'alizeh';
+function setWho(who, btn) {
+  currentWho = who;
+  document.querySelectorAll('.who-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  buildQuiz();
+  resetScore();
+}
+
+// ── QUIZ DATA ──
+// Each question has a "for" field: 'alizeh' = alizeh answers about omer, 'omer' = omer answers about alizeh, 'both' = same for both
+const allQuestions = [
+  {
+    text: "🐾 what animal would your partner be?",
+    options: ["a sleepy cat 😺", "a loyal golden retriever 🐶", "a dramatic peacock 🦚", "a chaotic raccoon 🦝"],
+    correct: null, // open — just for fun
+    fun: true,
+    for: 'both'
+  },
+  {
+    text: "💙 what's alizeh's favourite thing to do on a late night?",
+    options: ["cook something random", "call omer and never hang up", "scroll tiktok at 3am", "write or daydream"],
+    correct: 1,
+    for: 'omer'
+  },
+  {
+    text: "😂 what does omer do when he's pretending not to care but actually does?",
+    options: ["goes quiet for exactly 4 minutes", "makes a sarcastic joke", "disappears then comes back like nothing happened", "starts talking about something totally random"],
+    correct: 2,
+    for: 'alizeh'
+  },
+  {
+    text: "🌙 how did alizeh and omer first start talking?",
+    options: ["instagram dm", "through a mutual friend", "on reddit", "twitter"],
+    correct: 2,
+    for: 'both'
+  },
+  {
+    text: "💬 what's alizeh's love language?",
+    options: ["gifts 🎁", "words of affirmation 💬", "quality time ⏳", "acts of service 🛠️"],
+    correct: 1,
+    for: 'omer'
+  },
+  {
+    text: "😭 alizeh is upset — what does omer do?",
+    options: ["immediately fix-it mode", "gives her space then checks in", "sends a meme to cheer her up", "just listens without saying much"],
+    correct: 3,
+    for: 'both'
+  },
+  {
+    text: "🐱 if alizeh and omer were a cat duo, who's the troublemaker?",
+    options: ["definitely alizeh", "definitely omer", "honestly both equally", "they take turns"],
+    correct: 2,
+    fun: true,
+    for: 'both'
+  },
+  {
+    text: "💙 what does omer call alizeh most?",
+    options: ["jaan", "baba", "pagal", "alizeh"],
+    correct: 0,
+    for: 'alizeh'
+  },
+  {
+    text: "🌙 what time do their calls usually go until?",
+    options: ["midnight", "2–3am", "until someone falls asleep", "5am+"],
+    correct: 2,
+    for: 'both'
+  },
+  {
+    text: "😂 what's the most chaotic thing about this relationship?",
+    options: ["the sleep schedules", "the unhinged conversations", "the dramatic silences that last 3 mins", "the fact they're still going strong 💙"],
+    correct: 3,
+    fun: true,
+    for: 'both'
+  }
+];
+
+let scores = { alizeh: 0, omer: 0 };
+let answered = { alizeh: {}, omer: {} };
+
+function getQuestions() {
+  return allQuestions.filter(q => q.for === 'both' || q.for === currentWho);
+}
+
+function buildQuiz() {
+  const container = document.getElementById('quiz-container');
+  container.innerHTML = '';
+  const qs = getQuestions();
+  qs.forEach((q, i) => {
+    const card = document.createElement('div');
+    card.className = 'quiz-card';
+    card.style.animationDelay = (i * 0.07) + 's';
+    card.id = `qcard-${currentWho}-${i}`;
+
+    const alreadyAnswered = answered[currentWho][i];
+
+    card.innerHTML = `
+      <div class="q-num">question ${i + 1} of ${qs.length}</div>
+      <div class="q-text">${q.text}</div>
+      <div class="options" id="opts-${currentWho}-${i}">
+        ${q.options.map((opt, oi) => {
+          let cls = 'option-btn';
+          if (alreadyAnswered !== undefined) {
+            if (q.fun || q.correct === null) {
+              cls += alreadyAnswered === oi ? ' correct' : '';
+            } else {
+              if (oi === q.correct) cls += ' reveal';
+              if (alreadyAnswered === oi && oi !== q.correct) cls += ' wrong';
+              if (alreadyAnswered === oi && oi === q.correct) cls += ' correct';
+            }
+          }
+          return `<button class="${cls}" onclick="answer(${i}, ${oi})" ${alreadyAnswered !== undefined ? 'disabled' : ''}>${opt}</button>`;
+        }).join('')}
+      </div>
+      <div class="result-msg ${alreadyAnswered !== undefined ? 'show ' + getResultClass(q, alreadyAnswered) : ''}" id="res-${currentWho}-${i}">
+        ${alreadyAnswered !== undefined ? getResultText(q, alreadyAnswered) : ''}
+      </div>
+    `;
+    container.appendChild(card);
+  });
+  updateScoreBar();
+}
+
+function getResultClass(q, chosen) {
+  if (q.fun || q.correct === null) return 'correct-msg';
+  return chosen === q.correct ? 'correct-msg' : 'wrong-msg';
+}
+
+function getResultText(q, chosen) {
+  if (q.fun || q.correct === null) return '😂 love that answer, no wrong answers here!';
+  if (chosen === q.correct) return '✅ yes!! you know them so well 💙';
+  return `❌ aww not quite! the answer was: "${q.options[q.correct]}" 🫶`;
+}
+
+function answer(qIndex, optIndex) {
+  if (answered[currentWho][qIndex] !== undefined) return;
+  answered[currentWho][qIndex] = optIndex;
+
+  const qs = getQuestions();
+  const q = qs[qIndex];
+  const optsEl = document.getElementById(`opts-${currentWho}-${qIndex}`);
+  const resEl = document.getElementById(`res-${currentWho}-${qIndex}`);
+  const btns = optsEl.querySelectorAll('button');
+
+  btns.forEach(b => b.disabled = true);
+
+  if (q.fun || q.correct === null) {
+    btns[optIndex].classList.add('correct');
+  } else {
+    btns[q.correct].classList.add('reveal');
+    if (optIndex !== q.correct) {
+      btns[optIndex].classList.add('wrong');
+    } else {
+      btns[optIndex].classList.add('correct');
+      scores[currentWho]++;
+      burstHearts();
+    }
+  }
+
+  resEl.textContent = getResultText(q, optIndex);
+  resEl.className = `result-msg show ${getResultClass(q, optIndex)}`;
+  updateScoreBar();
+}
+
+function resetScore() {
+  updateScoreBar();
+}
+
+function updateScoreBar() {
+  const qs = getQuestions();
+  const total = qs.filter(q => !q.fun && q.correct !== null).length;
+  const got = scores[currentWho];
+  const answeredCount = Object.keys(answered[currentWho]).length;
+
+  if (answeredCount === qs.length) {
+    const bar = document.getElementById('score-bar');
+    bar.style.display = 'block';
+    document.getElementById('score-num').textContent = `${got}/${total}`;
+    const msgs = [
+      [0,2,"aww it's okay, you love them even if you don't know their coffee order 😂💙"],
+      [3,5,"not bad!! you're paying attention 👀💙"],
+      [6,7,"ooh okay we see you!! you've been listening 🥺💙"],
+      [8,9,"bestie you KNOW them 💙😭 relationship goals fr"],
+      [10,10,"PERFECT SCORE?? okay this is literally the most in love thing ever 💙💙💙"]
+    ];
+    let msg = msgs[0][2];
+    for (const [min,max,text] of msgs) {
+      if (got >= min && got <= max) { msg = text; break; }
+    }
+    document.getElementById('score-msg').textContent = msg;
+  }
+}
+
+// ── MOOD ──
+function selectMood(btn) {
+  document.querySelectorAll('.mood-pill').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+}
+
+// ── STAR RATING ──
+let starRating = 0;
+function rateStar(n) {
+  starRating = n;
+  const stars = document.querySelectorAll('#stars .star');
+  stars.forEach((s, i) => {
+    s.classList.toggle('lit', i < n);
+  });
+  burstHearts();
+}
+
+// ── HEARTS BURST ──
+function burstHearts() {
+  for (let i = 0; i < 6; i++) {
+    const h = document.createElement('div');
+    h.className = 'heart-burst';
+    h.textContent = ['💙','💫','✨','⭐'][Math.floor(Math.random()*4)];
+    const x = (Math.random()-0.5)*200;
+    const y = -(Math.random()*150+50);
+    h.style.cssText = `left:${Math.random()*80+10}%;top:${Math.random()*60+20}%;--tx:${x}px;--ty:${y}px;`;
+    document.body.appendChild(h);
+    setTimeout(() => h.remove(), 1300);
+  }
+}
+
+// ── SUBMIT FEEDBACK ──
+function submitFeedback() {
+  const mood = document.querySelector('.mood-pill.selected')?.textContent || 'not selected';
+  const love = document.getElementById('fb-love').value;
+  const complaint = document.getElementById('fb-complaint').value;
+  const wish = document.getElementById('fb-wish').value;
+  const secret = document.getElementById('fb-secret').value;
+
+  // save to localStorage so both can read each other's
+  const entry = {
+    who: currentWho,
+    mood, love, complaint, wish, secret,
+    stars: starRating,
+    date: new Date().toLocaleDateString('en-GB', {day:'numeric',month:'long',year:'numeric'})
+  };
+  const key = `feedback_${currentWho}`;
+  localStorage.setItem(key, JSON.stringify(entry));
+
+  document.getElementById('feedback-form').style.display = 'none';
+  const ty = document.getElementById('thank-you');
+  ty.classList.add('show');
+  document.getElementById('ty-sub').textContent =
+    currentWho === 'alizeh'
+      ? "omer will see this when he opens the page 💙 so sweet of you."
+      : "alizeh will see this when she opens the page 💙 she's going to love it.";
+
+  for (let i = 0; i < 20; i++) setTimeout(burstHearts, i * 80);
+}
+
+// ── INIT ──
+buildQuiz();
+</script>
+</body>
+</html>
