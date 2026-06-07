@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Singing 🎤💙</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
+
+<style>
+body {
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  background: radial-gradient(circle at top, #04060f, #01020a);
+  color: #e8ecff;
+  text-align: center;
+  overflow: hidden;
+}
+
+.circle {
+  width: 120px;
+  height: 120px;
+  background: rgba(127,156,255,0.4);
+  border-radius: 50%;
+  display: inline-block;
+  margin: 50px;
+  box-shadow: 0 0 25px rgba(127,156,255,0.4);
+  animation: bounce 2s infinite;
+}
+
+.circle:nth-child(2) {
+  animation-delay: 0.3s;
+}
+
+@keyframes bounce {
+  0%,100% { transform: translateY(0); }
+  50% { transform: translateY(-20px); }
+}
+
+button {
+  margin-top: 30px;
+  padding: 10px 16px;
+  border: none;
+  border-radius: 10px;
+  background: #7f9cff;
+  color: white;
+  cursor: pointer;
+}
+
+.star {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  background: white;
+  border-radius: 50%;
+  box-shadow: 0 0 8px #9fb6ff;
+  animation: float 20s linear infinite;
+}
+
+@keyframes float {
+  0% { transform: translateY(100vh); opacity: 0; }
+  100% { transform: translateY(-10vh); opacity: 0.6; }
+}
+</style>
+</head>
+
+<body>
+
+<h1>Us Singing 🎤💙</h1>
+
+<div class="circle"></div>
+<div class="circle"></div>
+
+<audio autoplay loop>
+  <source src="song.mp3" type="audio/mpeg">
+</audio>
+
+<br>
+
+<a href="index.html">
+  <button>Back Home</button>
+</a>
+
+<script>
+for (let i = 0; i < 60; i++) {
+  let star = document.createElement("div");
+  star.className = "star";
+  star.style.left = Math.random() * 100 + "vw";
+  star.style.top = Math.random() * 100 + "vh";
+  document.body.appendChild(star);
+}
+</script>
+
+</body>
+</html>
