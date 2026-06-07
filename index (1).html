@@ -145,7 +145,23 @@ main{max-width:820px;margin:0 auto;padding:1rem 1rem 5rem;position:relative;z-in
   display:flex;align-items:center;gap:1.2rem;
   animation:fadeUp 0.5s ease both;
   box-shadow:0 4px 40px rgba(0,0,0,0.3);
+}<button onclick="startMusic()">💙 Play Our Song</button>
+
+<div id="musicPlayer"></div>
+
+<script>
+function startMusic() {
+    document.getElementById("musicPlayer").innerHTML = `
+        <iframe
+            width="0"
+            height="0"
+            src="https://www.youtube.com/embed/cswfR85D7jM?autoplay=1&loop=1&playlist=cswfR85D7jM"
+            frameborder="0"
+            allow="autoplay">
+        </iframe>
+    `;
 }
+</script>
 .song-icon{font-size:36px;animation:pulse 2s ease-in-out infinite;}
 @keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.1)}}
 .song-info{flex:1;}
