@@ -2,98 +2,84 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Our Memory Space</title>
+<title>Our Memory Space 💙</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
 
 <style>
-  body {
-    margin: 0;
-    font-family: 'Poppins', sans-serif;
-    background: radial-gradient(circle at top, #050814, #02030a);
-    color: #e8ecff;
-    overflow: hidden;
-  }
+body {
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  background: radial-gradient(circle at top, #050814, #02030a);
+  color: #e8ecff;
+  overflow: hidden;
+  text-align: center;
+}
 
-  /* 🌙 STAR BACKGROUND */
-  .star {
-    position: absolute;
-    width: 2px;
-    height: 2px;
-    background: white;
-    border-radius: 50%;
-    box-shadow: 0 0 8px #9fb6ff;
-    animation: float 20s linear infinite;
-    opacity: 0.5;
-  }
+/* 🌙 stars */
+.star {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  background: white;
+  border-radius: 50%;
+  box-shadow: 0 0 8px #9fb6ff;
+  animation: float 20s linear infinite;
+}
 
-  @keyframes float {
-    0% { transform: translateY(100vh); opacity: 0; }
-    20% { opacity: 0.7; }
-    100% { transform: translateY(-10vh); opacity: 0; }
-  }
+@keyframes float {
+  0% { transform: translateY(100vh); opacity: 0; }
+  20% { opacity: 0.7; }
+  100% { transform: translateY(-10vh); opacity: 0; }
+}
 
-  /* 🖤 START SCREEN */
-  .startScreen {
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-  }
+/* intro */
+.screen {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
 
-  .startScreen h1 {
-    font-size: 28px;
-    color: #b8c7ff;
-    letter-spacing: 2px;
-  }
+h1 {
+  color: #b8c7ff;
+}
 
-  .btn {
-    margin-top: 20px;
-    padding: 12px 18px;
-    border: none;
-    border-radius: 10px;
-    background: #7f9cff;
-    color: white;
-    cursor: pointer;
-  }
+button {
+  margin-top: 20px;
+  padding: 12px 18px;
+  border: none;
+  border-radius: 10px;
+  background: #7f9cff;
+  color: white;
+  cursor: pointer;
+}
 
-  /* 💌 CONTENT */
-  .content {
-    display: none;
-    padding: 40px 0;
-    overflow-y: auto;
-    height: 100vh;
-  }
+.content {
+  display: none;
+  overflow-y: auto;
+  height: 100vh;
+  padding: 30px;
+}
 
-  .card {
-    width: 75%;
-    margin: 20px auto;
-    padding: 25px;
-    background: rgba(20, 25, 45, 0.55);
-    backdrop-filter: blur(14px);
-    border-radius: 18px;
-    border: 1px solid rgba(140,160,255,0.1);
-    box-shadow: 0 0 45px rgba(80,120,255,0.06);
-  }
+.card {
+  width: 80%;
+  margin: 20px auto;
+  padding: 25px;
+  background: rgba(20, 25, 45, 0.55);
+  border-radius: 18px;
+  border: 1px solid rgba(140,160,255,0.1);
+  box-shadow: 0 0 40px rgba(80,120,255,0.05);
+}
 
-  h2 {
-    color: #9fb6ff;
-  }
+h2 { color: #9fb6ff; }
 
-  p {
-    line-height: 1.9;
-    font-size: 14.5px;
-    color: #d7dcff;
-    white-space: pre-wrap;
-  }
-
-  /* ✨ FUN HOVER */
-  .card:hover {
-    transform: scale(1.01);
-    transition: 0.3s;
-  }
+p {
+  line-height: 1.8;
+  font-size: 14.5px;
+  white-space: pre-wrap;
+}
 </style>
 </head>
 
@@ -111,36 +97,27 @@ for (let i = 0; i < 70; i++) {
   star.className = "star";
   star.style.left = Math.random() * 100 + "vw";
   star.style.top = Math.random() * 100 + "vh";
-  star.style.animationDuration = (15 + Math.random() * 15) + "s";
   document.body.appendChild(star);
 }
 </script>
 
-<!-- 🖤 START SCREEN -->
-<div class="startScreen" id="start">
+<!-- 🖤 INTRO SCREEN -->
+<div class="screen" id="intro">
   <h1>OUR MEMORY SPACE 💙</h1>
-  <p>Click to enter</p>
-  <button class="btn" onclick="enterSite()">Enter</button>
+  <p>click to enter</p>
+  <button onclick="enterSite()">Enter</button>
 </div>
 
-<!-- 💌 MAIN CONTENT -->
+<!-- 💌 CONTENT -->
 <div class="content" id="content">
 
   <div class="card">
-    <h2>✨ little fun note</h2>
-    <p>this is our small universe… scroll slowly :)</p>
-  </div>
-
-  <!-- LETTER 1 FIRST -->
-  <div class="card">
     <h2>💙 to my best friend, lover and husband</h2>
-     <p> 
-    i still remember that day when you texted me on reddit and that was the best thing that had ever happend where we started as friends and then one night you asked me "tu muje pasand krti ha  kya?" and then i said confidently and boldly "hann krti hoon " at that time i thought i ruined our friendship and that was the day and here we are 5 months of pure chaos and drama the video calls/normal going from 2 to 3 then 5 hrs a night i loved every bit of it from me standing in the kitchen while cooking and telling you random ass storys about me and my famliy to us sleeping on call hearing you breath and snore made me feel safe and it still does the way you look at me while you feel utter love but couldnt say anything yet the part where you get a little hurt but you dont show it because its not worth it it is worth it your worth every single thing your the best husband ,best friend,lover and much much more , I love you omer I love you the whole you the person are and that your going to become everything i couldnt ask allah for more because usny muje best se best nawaza ha tu meri jaan ha meri zindigi i might not be able to say it but you deserve every bit of love thats left in me and even if im in a different universe i will still choose you to be my husband in every lifetime I love you meri jaan whatever you do means alot to me.>
-     </p>
-    
+    <p>
+I love the fact that you so crazy just like me and whenever i look at you i feel like im at home your my home i love you for the man you becoming and the man that he already is i love him because hes my man the man my heart ached for all this time i love when he notices little things and even tho sometimes somethings bother him he doesnt talk about it but in one way or another he communicates even tho he doesnt want to i love the fact he wants a future with me as much as i want with him and hes the best person in this entire world the agony i been through meant getting him in the end was the best thing that has ever happend to me i might not be the best girlfriend but i would do anything for this guy meri zindigi basti ha tumey omer meri zindingi ka sabse acha hisaa ho tum mere alfaz bayaan bhi na kr paye mere dil me tumary lia jitni mohobat ha meri jaan meri zindigi ho tum mere lia sird ek mamoli say insaan nahi ho omer tum mere ho or ye nazray tumari raah dehktin hain ke kb koi ek text aye or bhaagi chali aon tumary pass tumary kareeb Tum mere liye sirf ek insaan nahi ho… tum woh sukoon ho jo meri rooh ko ghar jaisa lagta hai.the day we started talking was the best day of my life because it made me lead to you omer And if there’s one thing I want you to remember, it’s that I always choose you… even on the days I don’t say it perfectly.
+    </p>
   </div>
 
-  <!-- LETTER 2 SECOND -->
   <div class="card">
     <h2>💙 myyy baba</h2>
     <p>
@@ -148,28 +125,30 @@ I love the fact that you so crazy just like me and whenever i look at you i feel
     </p>
   </div>
 
+  <a href="singing.html">
+    <button>Go to Singing 🎤</button>
+  </a>
+
 </div>
 
 <script>
 function enterSite() {
-  document.getElementById("start").style.display = "none";
+  document.getElementById("intro").style.display = "none";
   document.getElementById("content").style.display = "block";
 
   const audio = document.getElementById("bgm");
   audio.volume = 0;
+  audio.play();
 
-  audio.play().catch(()=>{});
-
-  // 🎵 fade in music
-  let vol = 0;
+  let v = 0;
   let fade = setInterval(() => {
-    if (vol < 1) {
-      vol += 0.02;
-      audio.volume = vol;
+    if (v < 1) {
+      v += 0.02;
+      audio.volume = v;
     } else {
       clearInterval(fade);
     }
-  }, 120);
+  }, 100);
 }
 </script>
 
