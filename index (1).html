@@ -342,16 +342,21 @@ function startMusic() {
   </nav>
 
   <main>
+<script>
+function startMusic() {
+    const audio = document.getElementById("bg-audio");
 
-    <!-- Song card -->
-    <div class="song-card" style="animation-delay:0.05s">
-      <span class="song-icon">🎵</span>
-      <div class="song-info">
-        <div class="song-title">our song</div>
-        <div class="song-sub">tap to play — just for us 💙</div>
-      </div>
-      <button class="song-play" onclick="toggleMusic()" id="song-play-btn">▶ play</button>
-    </div>
+    audio.play().then(() => {
+        document.getElementById("music-label").textContent = "pause our song";
+        document.getElementById("song-play-btn").textContent = "⏸ pause";
+        musicPlaying = true;
+    }).catch(error => {
+        console.log(error);
+    });
+}
+</script>
+
+   
 
     <!-- Letter 1 -->
     <div class="letter-card" style="animation-delay:0.1s">
