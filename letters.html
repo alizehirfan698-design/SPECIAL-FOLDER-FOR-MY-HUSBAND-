@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>love letters 💙 — our memory space</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;1,500&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --blue:#4A90D9;
+  --blue-soft:#5BA3E8;
+  --blue-glow:rgba(74,144,217,0.15);
+  --blue-border:rgba(74,144,217,0.25);
+  --bg:#070d1a;
+  --surface:rgba(10,20,45,0.85);
+  --surface2:rgba(15,28,60,0.9);
+  --text:#e8f0ff;
+  --muted:#7a9cc4;
+}
+body{
+  font-family:'DM Sans',sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  min-height:100vh;
+  background-image:
+    radial-gradient(ellipse at 15% 20%,rgba(74,144,217,0.12) 0%,transparent 55%),
+    radial-gradient(ellipse at 85% 70%,rgba(50,100,200,0.1) 0%,transparent 55%),
+    radial-gradient(ellipse at 50% 50%,rgba(20,40,100,0.3) 0%,transparent 80%);
+}
+
+/* STARS */
+.stars-bg{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden;}
+.star-dot{position:absolute;border-radius:50%;background:#fff;animation:twinkle var(--d) ease-in-out infinite;}
+@keyframes twinkle{0%,100%{opacity:0.05;transform:scale(1)}50%{opacity:0.9;transform:scale(1.4)}}
+
+/* PARTICLES */
+.particles{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden;}
+.particle{position:absolute;bottom:-20px;font-size:14px;animation:floatUp var(--d) ease-in infinite;animation-delay:var(--delay);}
+@keyframes floatUp{0%{transform:translateY(0) rotate(0deg);opacity:0.6}100%{transform:translateY(-110vh) rotate(360deg);opacity:0}}
+
+/* MUSIC */
+.music-bar{position:fixed;bottom:1.5rem;right:1.5rem;z-index:50;}
+.music-btn{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:10px 20px;border-radius:999px;
+  border:1px solid var(--blue-border);
+  background:rgba(7,13,26,0.85);
+  backdrop-filter:blur(10px);
+  color:var(--blue-soft);font-family:'DM Sans',sans-serif;
+  font-size:13px;cursor:pointer;transition:all 0.2s;
+  box-shadow:0 4px 20px rgba(0,0,0,0.4);
+}
+.music-btn:hover{background:var(--blue-glow);}
+.music-note{font-size:15px;animation:spin 2s linear infinite;display:inline-block;}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* HEADER */
+header{text-align:center;padding:3rem 1rem 1rem;position:relative;z-index:1;}
+.header-cats{display:flex;justify-content:center;gap:32px;align-items:flex-end;margin-bottom:1.2rem;height:90px;}
+.cat{animation:catBounce 1.2s ease-in-out infinite alternate;}
+.cat.r{animation-delay:0.4s;}
+@keyframes catBounce{from{transform:translateY(0)}to{transform:translateY(-12px)}}
+header h1{font-family:'Playfair Display',serif;font-size:clamp(1.6rem,4vw,2.4rem);color:var(--text);}
+header h1 span{color:var(--blue-soft);}
+header p{color:var(--muted);font-size:13px;margin-top:0.4rem;letter-spacing:0.04em;}
+
+/* NAV */
+nav{display:flex;justify-content:center;gap:8px;padding:1.2rem 1rem;flex-wrap:wrap;position:relative;z-index:1;}
+nav a{
+  padding:8px 20px;border-radius:999px;
+  border:1px solid var(--blue-border);
+  color:var(--muted);font-size:13px;text-decoration:none;
+  transition:all 0.2s;background:transparent;
+}
+nav a:hover,nav a.active{color:var(--blue-soft);border-color:var(--blue-soft);background:var(--blue-glow);}
+
+/* MAIN */
+main{max-width:720px;margin:0 auto;padding:1rem 1rem 6rem;position:relative;z-index:1;}
+
+/* PAGE INTRO */
+.page-intro{text-align:center;margin-bottom:2rem;animation:fadeUp 0.5s ease both;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+.page-intro h2{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(1.2rem,3vw,1.6rem);
+  color:var(--text);
+  margin-bottom:0.4rem;
+}
+.page-intro p{color:var(--muted);font-size:13px;line-height:1.7;}
+
+/* MOOD PILLS */
+.mood-label{font-size:12px;color:var(--muted);letter-spacing:0.06em;text-transform:uppercase;margin-bottom:0.8rem;text-align:center;}
+.mood-row{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin-bottom:1.5rem;animation:fadeUp 0.5s ease 0.1s both;}
+.mood-pill{
+  padding:8px 20px;border-radius:999px;
+  border:1px solid var(--blue-border);
+  color:var(--muted);font-family:'DM Sans',sans-serif;
+  font-size:13px;cursor:pointer;transition:all 0.2s;background:transparent;
+}
+.mood-pill:hover{color:var(--blue-soft);border-color:var(--blue-soft);background:var(--blue-glow);}
+.mood-pill.active{color:var(--blue-soft);border-color:var(--blue-soft);background:var(--blue-glow);}
+
+/* GENERATE BUTTON */
+.gen-btn{
+  display:block;width:100%;
+  padding:15px;
+  border-radius:16px;
+  border:1px solid var(--blue-border);
+  background:var(--blue-glow);
+  color:var(--blue-soft);
+  font-family:'Playfair Display',serif;
+  font-size:16px;font-style:italic;
+  cursor:pointer;transition:all 0.25s;
+  margin-bottom:1.8rem;
+  animation:fadeUp 0.5s ease 0.2s both;
+}
+.gen-btn:hover{background:rgba(74,144,217,0.22);border-color:var(--blue-soft);box-shadow:0 0 24px rgba(74,144,217,0.2);}
+.gen-btn:active{transform:scale(0.99);}
+
+/* LETTER CARD */
+.letter-card{
+  background:var(--surface);
+  border:1px solid var(--blue-border);
+  border-radius:20px;
+  padding:2.5rem 2.5rem 2rem;
+  position:relative;overflow:hidden;
+  animation:fadeUp 0.5s ease 0.3s both;
+  box-shadow:0 4px 40px rgba(0,0,0,0.3),inset 0 1px 0 rgba(74,144,217,0.1);
+  min-height:260px;
+}
+.letter-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(74,144,217,0.5),transparent);
+}
+.letter-from{
+  font-size:11px;color:var(--muted);letter-spacing:0.1em;
+  text-transform:uppercase;margin-bottom:1.5rem;
+}
+.letter-from span{color:var(--blue-soft);}
+.letter-body{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(14px,2.2vw,16px);
+  line-height:2;
+  color:rgba(232,240,255,0.88);
+  font-style:italic;
+  opacity:0;
+  transition:opacity 0.6s ease;
+  min-height:120px;
+}
+.letter-body.show{opacity:1;}
+.letter-body.placeholder{
+  color:var(--muted);
+  font-style:normal;
+  font-family:'DM Sans',sans-serif;
+  font-size:14px;
+  display:flex;align-items:center;justify-content:center;
+  text-align:center;
+}
+.letter-sign{
+  margin-top:1.5rem;
+  text-align:right;
+  font-family:'Playfair Display',serif;
+  font-size:14px;
+  color:var(--blue-soft);
+  font-style:italic;
+  opacity:0;
+  transition:opacity 0.6s ease 0.3s;
+}
+.letter-sign.show{opacity:1;}
+
+/* FLOATING HEARTS IN CARD */
+.card-hearts{
+  position:absolute;top:1rem;right:1.2rem;
+  font-size:22px;opacity:0.1;pointer-events:none;
+  letter-spacing:4px;
+}
+
+/* COPY / ACTIONS */
+.actions{display:flex;justify-content:flex-end;gap:10px;margin-top:1rem;animation:fadeUp 0.5s ease 0.35s both;}
+.action-btn{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:8px 18px;border-radius:999px;
+  border:1px solid var(--blue-border);
+  background:transparent;color:var(--muted);
+  font-family:'DM Sans',sans-serif;font-size:13px;
+  cursor:pointer;transition:all 0.2s;
+}
+.action-btn:hover{color:var(--blue-soft);border-color:var(--blue-soft);background:var(--blue-glow);}
+
+/* DIVIDER */
+.divider{display:flex;align-items:center;gap:12px;margin:2rem 0;color:var(--muted);font-size:13px;}
+.divider::before,.divider::after{content:'';flex:1;height:1px;background:var(--blue-border);}
+
+/* COUNTER */
+.counter{text-align:center;margin-top:1.5rem;animation:fadeUp 0.5s ease 0.4s both;}
+.counter p{font-size:12px;color:var(--muted);}
+.counter span{color:var(--blue-soft);font-weight:500;}
+
+@media(max-width:480px){
+  .letter-card{padding:1.5rem 1.2rem 1.5rem;}
+}
+</style>
+</head>
+<body>
+
+<div class="stars-bg" id="stars-bg"></div>
+<div class="particles" id="particles"></div>
+
+<audio id="bg-audio" loop>
+  <source src="song.mp3" type="audio/mpeg">
+</audio>
+<div class="music-bar">
+  <button class="music-btn" onclick="toggleMusic()">
+    <span class="music-note" id="music-note">🎵</span>
+    <span id="music-label">play our song</span>
+  </button>
+</div>
+
+<header>
+  <div class="header-cats">
+    <div class="cat">
+      <svg width="70" height="70" viewBox="0 0 70 70" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <polygon points="10,28 18,8 26,28" fill="#1a1a1a"/>
+        <polygon points="13,27 18,12 23,27" fill="#2d2d2d"/>
+        <polygon points="44,28 52,8 60,28" fill="#1a1a1a"/>
+        <polygon points="47,27 52,12 57,27" fill="#2d2d2d"/>
+        <ellipse cx="35" cy="36" rx="22" ry="20" fill="#1a1a1a"/>
+        <ellipse cx="35" cy="39" rx="14" ry="12" fill="#f5f5f5"/>
+        <ellipse cx="27" cy="33" rx="4" ry="5" fill="#4A90D9"/>
+        <ellipse cx="43" cy="33" rx="4" ry="5" fill="#4A90D9"/>
+        <ellipse cx="27" cy="33" rx="2" ry="3.5" fill="#111"/>
+        <ellipse cx="43" cy="33" rx="2" ry="3.5" fill="#111"/>
+        <circle cx="28" cy="31" r="1" fill="#fff"/>
+        <circle cx="44" cy="31" r="1" fill="#fff"/>
+        <polygon points="35,40 32,43 38,43" fill="#D4537E"/>
+        <path d="M32,43 Q35,47 38,43" stroke="#aaa" stroke-width="1" fill="none"/>
+        <line x1="10" y1="40" x2="26" y2="42" stroke="#ccc" stroke-width="0.8"/>
+        <line x1="10" y1="43" x2="26" y2="43" stroke="#ccc" stroke-width="0.8"/>
+        <line x1="44" y1="42" x2="60" y2="40" stroke="#ccc" stroke-width="0.8"/>
+        <line x1="44" y1="43" x2="60" y2="43" stroke="#ccc" stroke-width="0.8"/>
+        <ellipse cx="35" cy="60" rx="16" ry="10" fill="#1a1a1a"/>
+        <ellipse cx="35" cy="61" rx="8" ry="7" fill="#f5f5f5"/>
+        <path d="M51,58 Q65,50 62,40 Q60,33 55,36" stroke="#1a1a1a" stroke-width="5" fill="none" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <div class="cat r">
+      <svg width="70" height="70" viewBox="0 0 70 70" fill="none" xmlns="http://www.w3.org/2000/svg" style="transform:scaleX(-1)">
+        <polygon points="10,28 18,8 26,28" fill="#e0e0e0"/>
+        <polygon points="13,27 18,12 23,27" fill="#f5f5f5"/>
+        <polygon points="44,28 52,8 60,28" fill="#e0e0e0"/>
+        <polygon points="47,27 52,12 57,27" fill="#f5f5f5"/>
+        <ellipse cx="35" cy="36" rx="22" ry="20" fill="#e0e0e0"/>
+        <ellipse cx="35" cy="39" rx="14" ry="12" fill="#f5f5f5"/>
+        <ellipse cx="27" cy="33" rx="4" ry="5" fill="#4A90D9"/>
+        <ellipse cx="43" cy="33" rx="4" ry="5" fill="#4A90D9"/>
+        <ellipse cx="27" cy="33" rx="2" ry="3.5" fill="#111"/>
+        <ellipse cx="43" cy="33" rx="2" ry="3.5" fill="#111"/>
+        <circle cx="28" cy="31" r="1" fill="#fff"/>
+        <circle cx="44" cy="31" r="1" fill="#fff"/>
+        <polygon points="35,40 32,43 38,43" fill="#D4537E"/>
+        <path d="M32,43 Q35,47 38,43" stroke="#aaa" stroke-width="1" fill="none"/>
+        <line x1="10" y1="40" x2="26" y2="42" stroke="#ccc" stroke-width="0.8"/>
+        <line x1="10" y1="43" x2="26" y2="43" stroke="#ccc" stroke-width="0.8"/>
+        <line x1="44" y1="42" x2="60" y2="40" stroke="#ccc" stroke-width="0.8"/>
+        <line x1="44" y1="43" x2="60" y2="43" stroke="#ccc" stroke-width="0.8"/>
+        <ellipse cx="35" cy="60" rx="16" ry="10" fill="#e0e0e0"/>
+        <ellipse cx="35" cy="61" rx="8" ry="7" fill="#f5f5f5"/>
+        <path d="M51,58 Q65,50 62,40 Q60,33 55,36" stroke="#e0e0e0" stroke-width="5" fill="none" stroke-linecap="round"/>
+      </svg>
+    </div>
+  </div>
+  <h1>our <span>memory space</span> 💙</h1>
+  <p>alizeh & omer — something special, just for us</p>
+</header>
+
+<nav>
+  <a href="index.html">💙 home</a>
+  <a href="gallery.html">📸 our memories</a>
+  <a href="animals.html">🐾 our animal selves</a>
+  <a href="singing.html">🎤 singing</a>
+  <a href="letters.html" class="active">💌 love letters</a>
+</nav>
+
+<main>
+
+  <div class="page-intro">
+    <h2>a letter for my omer 💌</h2>
+    <p>pick a mood, generate a message from the heart —<br>as many times as you want, forever.</p>
+  </div>
+
+  <div class="mood-label">pick a mood</div>
+  <div class="mood-row" id="mood-row">
+    <button class="mood-pill active" onclick="setMood('soft',this)">soft & sweet</button>
+    <button class="mood-pill" onclick="setMood('deep',this)">deep & emotional</button>
+    <button class="mood-pill" onclick="setMood('silly',this)">silly & us</button>
+    <button class="mood-pill" onclick="setMood('missing',this)">i miss you</button>
+    <button class="mood-pill" onclick="setMood('proud',this)">so proud of you</button>
+  </div>
+
+  <button class="gen-btn" onclick="generateLetter()">✨ generate a letter for him</button>
+
+  <div class="letter-card" id="letter-card">
+    <div class="card-hearts">💙 💙 💙</div>
+    <div class="letter-from">to: <span>omer</span> &nbsp;·&nbsp; from: <span>alizeh</span></div>
+    <div class="letter-body placeholder show" id="letter-body">press generate and let your heart speak...</div>
+    <div class="letter-sign" id="letter-sign">— your alizeh 💙</div>
+  </div>
+
+  <div class="actions">
+    <button class="action-btn" onclick="copyLetter()" id="copy-btn">📋 copy letter</button>
+    <button class="action-btn" onclick="generateLetter()">🔀 another one</button>
+  </div>
+
+  <div class="counter">
+    <p>letters generated: <span id="count">0</span> 💙</p>
+  </div>
+
+  <div class="divider">💙</div>
+
+</main>
+
+<script>
+// Stars
+const starsEl=document.getElementById('stars-bg');
+for(let i=0;i<120;i++){
+  const s=document.createElement('div');s.className='star-dot';
+  const size=Math.random()*2+0.4;
+  s.style.cssText=`width:${size}px;height:${size}px;left:${Math.random()*100}%;top:${Math.random()*100}%;--d:${(Math.random()*4+1).toFixed(1)}s;animation-delay:${(Math.random()*5).toFixed(1)}s`;
+  starsEl.appendChild(s);
+}
+
+// Particles
+const pEl=document.getElementById('particles');
+const emojis=['💙','✨','⭐','💫','🌙','💎','💌'];
+for(let i=0;i<14;i++){
+  const h=document.createElement('div');h.className='particle';
+  h.textContent=emojis[i%emojis.length];
+  h.style.cssText=`left:${Math.random()*100}%;font-size:${Math.random()*8+10}px;--d:${(Math.random()*10+7).toFixed(1)}s;--delay:${(Math.random()*10).toFixed(1)}s`;
+  pEl.appendChild(h);
+}
+
+// Music
+let musicPlaying=false;
+function toggleMusic(){
+  const audio=document.getElementById('bg-audio');
+  const label=document.getElementById('music-label');
+  const note=document.getElementById('music-note');
+  if(musicPlaying){
+    audio.pause();label.textContent='play our song';
+    note.style.animationPlayState='paused';
+  }else{
+    audio.play().catch(()=>{});label.textContent='pause our song';
+    note.style.animationPlayState='running';
+  }
+  musicPlaying=!musicPlaying;
+}
+document.getElementById('music-note').style.animationPlayState='paused';
+
+// Letters
+const letters={
+  soft:[
+    "omer, do you know what my favourite sound in the whole world is? it's you breathing on a call. it's the most ordinary thing and somehow it makes everything feel okay. i don't know how you do that — just exist and make the whole world quieter and softer. i love you in the most gentle, steady way. like a light that doesn't flicker.",
+    "my love, some mornings i wake up and the first thing i think about is you. not a big dramatic thought — just you. just your face, just your voice, just the fact that you exist somewhere and you chose me. that alone is enough to make any day feel full. thank you for existing in my direction.",
+    "omer, you are the kind of person who makes ordinary moments feel like they matter. a random conversation, a silly joke, silence on a call — all of it becomes something beautiful because you're in it. i love you softly, deeply, and without condition.",
+    "i keep thinking about how lucky i am. not in a grand way, just quietly. like when you say something that makes me laugh and i think — yes, this is the one. always this one. you, omer. always you.",
+    "the way you make me feel safe is something i never knew i needed until you. you don't have to say much. you just have to be there. and somehow that is everything. you are everything.",
+  ],
+  deep:[
+    "omer, i don't have the right words for what i feel and i'm not sure they exist. it's not just love — it's something that lives in my chest quietly. it doesn't shout, it just stays. through every bad day and every silence and every moment i felt like too much — it stayed. you stayed. and i think that is the most sacred thing anyone has ever done for me.",
+    "sometimes i think about the version of me before you and i feel sorry for her. she didn't know what it felt like to be truly seen. you look at me and you understand things i never said out loud. that kind of knowing is rare. you are rare. and i will spend every day trying to be worthy of the way you love me.",
+    "loving you has changed me in ways i didn't expect. i'm softer now. i'm less afraid. i believe in things again — in people, in tomorrow, in the idea that maybe good things don't always leave. you are the reason i believe that. omer, you restored something in me i didn't know was broken.",
+    "there are moments i look at you and feel something so full it almost hurts. not because it's painful — but because i didn't know love could be this big. this patient. this quiet and still this loud inside me. you are the most beautiful thing that has ever happened to my heart.",
+    "i want you to know that whatever life brings — i am not afraid of it if you are beside me. not because you fix everything. but because with you i feel like myself. fully, honestly, completely myself. and that is the greatest gift one person can give another.",
+  ],
+  silly:[
+    "omer. my chaotic, dramatic, over-the-top wonderful person. how did i end up with someone who is just as unhinged as me and somehow also my greatest comfort? you make zero sense and all the sense at the same time. i love you. please never be normal.",
+    "you know what is genuinely embarrassing? how much i like you. not even love — LIKE. like i genuinely enjoy you as a person. your brain, your nonsense, the way you say things. it's a problem. i have a you problem and i am not even looking for a cure.",
+    "the fact that we became best friends and then fell in love while being completely chaotic and dramatic together feels very much like something only we could pull off. normal people fall in love normally. we had to make it a whole thing. i would not change it for anything.",
+    "omer you are so annoying i am so obsessed with you. this is not a contradiction. i will argue this in court. you are the funniest person i know and also the most dramatic and also somehow the one who makes me feel safest and that is honestly very unfair of you.",
+    "every time i think i have you figured out you say something that surprises me and i fall a little more. you've been doing this for months. i think you're doing it on purpose. it's working. you're winning. i hope you're happy.",
+  ],
+  missing:[
+    "omer, i miss you in the most inconvenient way. not just sometimes — all the time, in the background, like a song that doesn't stop. i miss your voice. i miss the way the call feels different from texting. i miss the particular kind of comfortable that only exists when it's you.",
+    "there is a specific kind of lonely that only happens when you're missing someone you're already close to. that's what this is. i'm not far from you in my heart — you're right there — but i want you closer. i want the real you, close enough to hear you breathing. i miss you so much it's embarrassing.",
+    "you know what i keep thinking? i keep thinking about all the conversations we still haven't had. all the stories i want to tell you, all the random things i see that i want to show you. i'm saving them all up. i have so much to give you when we're together.",
+    "missing you is strange because it coexists with feeling loved. i know you're there. i know you're mine. and i still miss you every single day. i think that's what it means to love someone this much — that their absence is felt even when their presence is never in doubt.",
+    "i was fine before you. i was perfectly okay on my own. and then you came along and now i don't know how to be in a room without wanting you in it. omer, what did you do to me. i miss you terribly.",
+  ],
+  proud:[
+    "omer, i want you to know that i see you. i see you trying. i see you becoming. i see all the little ways you are growing into yourself and it is one of the most beautiful things i've ever had the privilege of witnessing. i am so proud of the man you are and even more proud of the man you're becoming.",
+    "you carry things so quietly sometimes. i notice. i notice when something is hard and you don't say it. i notice when you push through anyway. i want you to know that your strength doesn't go unseen — not by me, never by me. you are doing so well, my love. i hope you believe that.",
+    "every version of you has been worth loving. the one who was figuring things out, the one who was unsure, the one who is standing right here right now — all of them. you have never been anything less than someone i am proud to call mine.",
+    "i just want to say it clearly: i am proud of you. not just for the big things. for the quiet ones too. for the days you showed up when it was hard. for the patience you have, for the love you give, for the person you choose to be every single day. i am so proud of you omer.",
+    "you are going to do great things. i feel it. and when you do, i want you to remember that someone who knows you completely — all of you — believed in you from the very beginning. that someone is me. i always believed in you.",
+  ],
+};
+
+let currentMood='soft';
+let lastIndex=-1;
+let count=0;
+let generated=false;
+
+function setMood(mood,btn){
+  currentMood=mood;lastIndex=-1;
+  document.querySelectorAll('.mood-pill').forEach(p=>p.classList.remove('active'));
+  btn.classList.add('active');
+}
+
+function generateLetter(){
+  const pool=letters[currentMood];
+  let idx;
+  do{idx=Math.floor(Math.random()*pool.length);}while(idx===lastIndex&&pool.length>1);
+  lastIndex=idx;
+  count++;
+  document.getElementById('count').textContent=count;
+  const body=document.getElementById('letter-body');
+  const sign=document.getElementById('letter-sign');
+  body.classList.remove('show','placeholder');
+  sign.classList.remove('show');
+  setTimeout(()=>{
+    body.textContent=pool[idx];
+    body.classList.add('show');
+    sign.classList.add('show');
+    generated=true;
+  },200);
+}
+
+function copyLetter(){
+  if(!generated)return;
+  const text=document.getElementById('letter-body').textContent;
+  navigator.clipboard.writeText(text+'\n\n— your alizeh 💙').then(()=>{
+    const btn=document.getElementById('copy-btn');
+    btn.textContent='✅ copied!';
+    setTimeout(()=>{btn.textContent='📋 copy letter';},2000);
+  });
+}
+</script>
+</body>
+</html>
