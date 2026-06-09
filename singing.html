@@ -31,8 +31,6 @@ header h1{font-family:'Playfair Display',serif;font-size:clamp(1.6rem,4vw,2.4rem
 header h1 span{color:var(--blue-soft);}
 header p{color:var(--muted);font-size:13px;margin-top:0.4rem;letter-spacing:0.04em;}
 main{max-width:680px;margin:0 auto;padding:1.5rem 1rem 6rem;position:relative;z-index:1;}
-
-/* ── PLAYER CARD ── */
 .player-card{
   background:var(--surface);border:1px solid var(--blue-border);border-radius:20px;
   padding:2rem;margin-bottom:1.5rem;backdrop-filter:blur(12px);
@@ -51,8 +49,6 @@ main{max-width:680px;margin:0 auto;padding:1.5rem 1rem 6rem;position:relative;z-
 @keyframes discSpin{to{transform:rotate(360deg)}}
 .song-name{font-family:'Playfair Display',serif;font-size:1.15rem;color:var(--text);}
 .song-artist{font-size:12px;color:var(--muted);margin-top:3px;}
-
-/* ── CUSTOM AUDIO PLAYER ── */
 .audio-controls{display:flex;flex-direction:column;gap:12px;}
 .progress-row{display:flex;align-items:center;gap:10px;}
 .progress-track{flex:1;height:5px;background:var(--blue-border);border-radius:99px;cursor:pointer;position:relative;}
@@ -70,8 +66,6 @@ main{max-width:680px;margin:0 auto;padding:1.5rem 1rem 6rem;position:relative;z-
 .vol-btn:hover{color:var(--blue-soft);}
 .vol-slider{-webkit-appearance:none;appearance:none;width:80px;height:3px;border-radius:99px;background:var(--blue-border);outline:none;cursor:pointer;}
 .vol-slider::-webkit-slider-thumb{-webkit-appearance:none;width:12px;height:12px;border-radius:50%;background:var(--blue-soft);cursor:pointer;}
-
-/* ── LYRICS CARD ── */
 .lyrics-card{
   background:var(--surface);border:1px solid var(--blue-border);border-radius:20px;
   padding:2rem;backdrop-filter:blur(12px);
@@ -113,8 +107,6 @@ main{max-width:680px;margin:0 auto;padding:1.5rem 1rem 6rem;position:relative;z-
 </nav>
 
 <main>
-
-  <!-- ══ AAPKI NAZRON NE SAMJHA ══ -->
   <div class="player-card">
     <div class="song-meta">
       <div class="song-disc" id="disc1">🎶</div>
@@ -123,7 +115,7 @@ main{max-width:680px;margin:0 auto;padding:1.5rem 1rem 6rem;position:relative;z-
         <div class="song-artist">Lata Mangeshkar</div>
       </div>
     </div>
-    <audio id="audio1" src="Aapki_Nazron_Ne_Samjha_KoshalWorld_Com_.mp3" preload="metadata"></audio>
+    <audio id="audio1" src="Aapki Nazron Ne Samjha(KoshalWorld.Com).mp3" preload="metadata"></audio>
     <div class="audio-controls">
       <div class="progress-row">
         <span class="time-dur" id="cur1">0:00</span>
@@ -146,124 +138,92 @@ main{max-width:680px;margin:0 auto;padding:1.5rem 1rem 6rem;position:relative;z-
     <div id="lyrics1"></div>
     <p class="sync-note">💙 lyrics highlight in real time as the song plays</p>
   </div>
-
 </main>
 
 <script>
-// ── STARS ──
 const starsEl=document.getElementById('stars-bg');
-for(let i=0;i<120;i++){
-  const s=document.createElement('div');s.className='star-dot';
-  const sz=Math.random()*2+0.4;
-  s.style.cssText=`width:${sz}px;height:${sz}px;left:${Math.random()*100}%;top:${Math.random()*100}%;--d:${(Math.random()*4+1).toFixed(1)}s;animation-delay:${(Math.random()*5).toFixed(1)}s`;
-  starsEl.appendChild(s);
-}
-// ── PARTICLES ──
+for(let i=0;i<120;i++){const s=document.createElement('div');s.className='star-dot';const sz=Math.random()*2+0.4;s.style.cssText=`width:${sz}px;height:${sz}px;left:${Math.random()*100}%;top:${Math.random()*100}%;--d:${(Math.random()*4+1).toFixed(1)}s;animation-delay:${(Math.random()*5).toFixed(1)}s`;starsEl.appendChild(s);}
 const pEl=document.getElementById('particles');
-['💙','✨','⭐','💫','🌙','💎'].forEach(e=>{
-  const h=document.createElement('div');h.className='particle';h.textContent=e;
-  h.style.cssText=`left:${Math.random()*100}%;font-size:${Math.random()*8+10}px;--d:${(Math.random()*10+7).toFixed(1)}s;--delay:${(Math.random()*10).toFixed(1)}s`;
-  pEl.appendChild(h);
-});
+['💙','✨','⭐','💫','🌙','💎'].forEach(e=>{const h=document.createElement('div');h.className='particle';h.textContent=e;h.style.cssText=`left:${Math.random()*100}%;font-size:${Math.random()*8+10}px;--d:${(Math.random()*10+7).toFixed(1)}s;--delay:${(Math.random()*10).toFixed(1)}s`;pEl.appendChild(h);});
 
-// ══════════════════════════════════════════════
-// LYRICS — timestamps mapped to actual audio file
-// ══════════════════════════════════════════════
 const lyricsData = [
-  // ── MUKHDA (repeating refrain) ──
-  { t: 9.2,  text: "Aapki nazron ne samjha",           type: "lyric"   },
-  { t: 11.1, text: "Pyar ke kabil mujhe",               type: "lyric"   },
-  { t: 16.2, text: "Dil ki ae dhadkan thaher ja",       type: "lyric"   },
-  { t: 20.1, text: "Mil gayi manzil mujhe",             type: "lyric"   },
-  { t: 23.2, text: "Aapki nazron ne samjha",            type: "lyric"   },
-
-  // ── ANTARA 1 ──
-  { t: 26.1, text: "— ✦ —",                             type: "section" },
-  { t: 30.6, text: "Ji hamein manzoor hai",             type: "lyric"   },
-  { t: 35.5, text: "Aapka ye faisla",                   type: "lyric"   },
-  { t: 40.9, text: "Ji hamein manzoor hai",             type: "lyric"   },
-  { t: 46.3, text: "Aapka ye faisla",                   type: "lyric"   },
-  { t: 51.8, text: "Keh rahi hai har nazar",            type: "lyric"   },
-  { t: 56.0, text: "Banda parvar shukriya",             type: "lyric"   },
-  { t: 61.8, text: "Hanske apni zindagi mein",          type: "lyric"   },
-  { t: 66.9, text: "Kar liya shamil mujhe",             type: "lyric"   },
-
-  // ── MUKHDA ──
-  { t: 69.7, text: "— ✦ —",                             type: "section" },
-  { t: 71.4, text: "Dil ki ae dhadkan thaher ja",       type: "lyric"   },
-  { t: 74.6, text: "Mil gayi manzil mujhe",             type: "lyric"   },
-  { t: 76.9, text: "Aapki nazron ne samjha",            type: "lyric"   },
-
-  // ── ANTARA 2 ──
-  { t: 78.9, text: "— ✦ —",                             type: "section" },
-  { t: 82.8, text: "Aapki manzil hoon main",            type: "lyric"   },
-  { t: 85.9, text: "Meri manzil aap hain",              type: "lyric"   },
-  { t: 88.7, text: "Aapki manzil hoon main",            type: "lyric"   },
-  { t: 93.1, text: "Meri manzil aap hain",              type: "lyric"   },
-  { t: 98.1, text: "Kyon main toofaan se daroon",       type: "lyric"   },
-  { t: 101.3,text: "Mere saahil aap hain",              type: "lyric"   },
-  { t: 104.7,text: "Koi tufaanon se keh de",            type: "lyric"   },
-  { t: 108.7,text: "Mil gaya saahil mujhe",             type: "lyric"   },
-
-  // ── MUKHDA ──
-  { t: 112.7,text: "— ✦ —",                             type: "section" },
-  { t: 115.2,text: "Dil ki ae dhadkan thaher ja",       type: "lyric"   },
-  { t: 118.6,text: "Mil gayi manzil mujhe",             type: "lyric"   },
-  { t: 122.5,text: "Aapki nazron ne samjha",            type: "lyric"   },
-
-  // ── ANTARA 3 ──
-  { t: 125.0,text: "— ✦ —",                             type: "section" },
-  { t: 131.9,text: "Pad gayi dil par meri",             type: "lyric"   },
-  { t: 136.0,text: "Aapki parchhaiyan",                 type: "lyric"   },
-  { t: 140.3,text: "Pad gayi dil par meri",             type: "lyric"   },
-  { t: 145.3,text: "Aapki parchhaiyan",                 type: "lyric"   },
-  { t: 151.2,text: "Har taraf bajne lagin",             type: "lyric"   },
-  { t: 154.8,text: "Saikado shahnaaiyan",               type: "lyric"   },
-  { t: 159.8,text: "Do jahaan ki aaj khushiyan",        type: "lyric"   },
-  { t: 164.8,text: "Ho gayi haasil mujhe",              type: "lyric"   },
-
-  // ── FINAL MUKHDA ──
-  { t: 170.6,text: "— ✦ —",                             type: "section" },
-  { t: 175.6,text: "Aapki nazron ne samjha",            type: "lyric"   },
-  { t: 179.7,text: "Pyar ke kabil mujhe",               type: "lyric"   },
-  { t: 184.1,text: "Dil ki ae dhadkan thaher ja",       type: "lyric"   },
-  { t: 186.8,text: "Mil gayi manzil mujhe",             type: "lyric"   },
-  { t: 191.2,text: "Aapki nazron ne samjha",            type: "lyric"   },
-  { t: 194.0,text: "Pyar ke kabil mujhe",               type: "lyric"   },
-  { t: 197.8,text: "Dil ki ae dhadkan thaher ja",       type: "lyric"   },
-  { t: 203.5,text: "Mil gayi manzil mujhe",             type: "lyric"   },
-  { t: 207.2,text: "Aapki nazron ne samjha",            type: "lyric"   },
-  { t: 209.8,text: "Pyar ke kabil mujhe",               type: "lyric"   },
-  { t: 212.8,text: "Dil ki ae dhadkan thaher ja",       type: "lyric"   },
-  { t: 216.5,text: "Mil gayi manzil mujhe",             type: "lyric"   },
-  { t: 219.8,text: "Aapki nazron ne samjha",            type: "lyric"   },
-  { t: 222.6,text: "Aapki nazron ne samjha",            type: "lyric"   },
-  { t: 226.1,text: "Aapki nazron ne samjha 💙",         type: "lyric"   },
+  { t:9.2,  text:"Aapki nazron ne samjha",         type:"lyric"   },
+  { t:11.1, text:"Pyar ke kabil mujhe",             type:"lyric"   },
+  { t:16.2, text:"Dil ki ae dhadkan thaher ja",     type:"lyric"   },
+  { t:20.1, text:"Mil gayi manzil mujhe",           type:"lyric"   },
+  { t:23.2, text:"Aapki nazron ne samjha",          type:"lyric"   },
+  { t:26.1, text:"— ✦ —",                           type:"section" },
+  { t:30.6, text:"Ji hamein manzoor hai",           type:"lyric"   },
+  { t:35.5, text:"Aapka ye faisla",                 type:"lyric"   },
+  { t:40.9, text:"Ji hamein manzoor hai",           type:"lyric"   },
+  { t:46.3, text:"Aapka ye faisla",                 type:"lyric"   },
+  { t:51.8, text:"Keh rahi hai har nazar",          type:"lyric"   },
+  { t:56.0, text:"Banda parvar shukriya",           type:"lyric"   },
+  { t:61.8, text:"Hanske apni zindagi mein",        type:"lyric"   },
+  { t:66.9, text:"Kar liya shamil mujhe",           type:"lyric"   },
+  { t:69.7, text:"— ✦ —",                           type:"section" },
+  { t:71.4, text:"Dil ki ae dhadkan thaher ja",     type:"lyric"   },
+  { t:74.6, text:"Mil gayi manzil mujhe",           type:"lyric"   },
+  { t:76.9, text:"Aapki nazron ne samjha",          type:"lyric"   },
+  { t:78.9, text:"— ✦ —",                           type:"section" },
+  { t:82.8, text:"Aapki manzil hoon main",          type:"lyric"   },
+  { t:85.9, text:"Meri manzil aap hain",            type:"lyric"   },
+  { t:88.7, text:"Aapki manzil hoon main",          type:"lyric"   },
+  { t:93.1, text:"Meri manzil aap hain",            type:"lyric"   },
+  { t:98.1, text:"Kyon main toofaan se daroon",     type:"lyric"   },
+  { t:101.3,text:"Mere saahil aap hain",            type:"lyric"   },
+  { t:104.7,text:"Koi tufaanon se keh de",          type:"lyric"   },
+  { t:108.7,text:"Mil gaya saahil mujhe",           type:"lyric"   },
+  { t:112.7,text:"— ✦ —",                           type:"section" },
+  { t:115.2,text:"Dil ki ae dhadkan thaher ja",     type:"lyric"   },
+  { t:118.6,text:"Mil gayi manzil mujhe",           type:"lyric"   },
+  { t:122.5,text:"Aapki nazron ne samjha",          type:"lyric"   },
+  { t:125.0,text:"— ✦ —",                           type:"section" },
+  { t:131.9,text:"Pad gayi dil par meri",           type:"lyric"   },
+  { t:136.0,text:"Aapki parchhaiyan",               type:"lyric"   },
+  { t:140.3,text:"Pad gayi dil par meri",           type:"lyric"   },
+  { t:145.3,text:"Aapki parchhaiyan",               type:"lyric"   },
+  { t:151.2,text:"Har taraf bajne lagin",           type:"lyric"   },
+  { t:154.8,text:"Saikado shahnaaiyan",             type:"lyric"   },
+  { t:159.8,text:"Do jahaan ki aaj khushiyan",      type:"lyric"   },
+  { t:164.8,text:"Ho gayi haasil mujhe",            type:"lyric"   },
+  { t:170.6,text:"— ✦ —",                           type:"section" },
+  { t:175.6,text:"Aapki nazron ne samjha",          type:"lyric"   },
+  { t:179.7,text:"Pyar ke kabil mujhe",             type:"lyric"   },
+  { t:184.1,text:"Dil ki ae dhadkan thaher ja",     type:"lyric"   },
+  { t:186.8,text:"Mil gayi manzil mujhe",           type:"lyric"   },
+  { t:191.2,text:"Aapki nazron ne samjha",          type:"lyric"   },
+  { t:194.0,text:"Pyar ke kabil mujhe",             type:"lyric"   },
+  { t:197.8,text:"Dil ki ae dhadkan thaher ja",     type:"lyric"   },
+  { t:203.5,text:"Mil gayi manzil mujhe",           type:"lyric"   },
+  { t:207.2,text:"Aapki nazron ne samjha",          type:"lyric"   },
+  { t:209.8,text:"Pyar ke kabil mujhe",             type:"lyric"   },
+  { t:212.8,text:"Dil ki ae dhadkan thaher ja",     type:"lyric"   },
+  { t:216.5,text:"Mil gayi manzil mujhe",           type:"lyric"   },
+  { t:219.8,text:"Aapki nazron ne samjha",          type:"lyric"   },
+  { t:222.6,text:"Aapki nazron ne samjha",          type:"lyric"   },
+  { t:226.1,text:"Aapki nazron ne samjha 💙",       type:"lyric"   },
 ];
 
-// ── BUILD LYRICS DOM ──
-function buildLyrics(data, containerId) {
-  const c = document.getElementById(containerId);
-  return data.map(line => {
-    const div = document.createElement('div');
-    div.className = 'lyric-line' + (line.type === 'section' ? ' section' : '');
-    div.textContent = line.text;
+function buildLyrics(data,containerId){
+  const c=document.getElementById(containerId);
+  return data.map(line=>{
+    const div=document.createElement('div');
+    div.className='lyric-line'+(line.type==='section'?' section':'');
+    div.textContent=line.text;
     c.appendChild(div);
     return div;
   });
 }
-const els1 = buildLyrics(lyricsData, 'lyrics1');
+const els1=buildLyrics(lyricsData,'lyrics1');
 
-// ── PLAYER ──
-const audio1 = document.getElementById('audio1');
-const play1btn = document.getElementById('play1');
-const disc1 = document.getElementById('disc1');
-let playing1 = false;
+const audio1=document.getElementById('audio1');
+const play1btn=document.getElementById('play1');
+const disc1=document.getElementById('disc1');
+let playing1=false;
 
 function fmt(s){const m=Math.floor(s/60);const sec=Math.floor(s%60);return m+':'+(sec<10?'0':'')+sec;}
-
 audio1.addEventListener('loadedmetadata',()=>{document.getElementById('dur1').textContent=fmt(audio1.duration);});
-
 function togglePlay(n){
   if(n===1){
     if(playing1){audio1.pause();play1btn.textContent='▶';disc1.classList.remove('spinning');}
@@ -273,36 +233,27 @@ function togglePlay(n){
 }
 function toggleMute(n){if(n===1){audio1.muted=!audio1.muted;document.getElementById('mute1').textContent=audio1.muted?'🔇':'🔊';}}
 function setVol(n,v){if(n===1)audio1.volume=v;}
-
 audio1.addEventListener('ended',()=>{play1btn.textContent='▶';disc1.classList.remove('spinning');playing1=false;});
-
 document.getElementById('track1').addEventListener('click',function(e){
-  const rect=this.getBoundingClientRect();
-  audio1.currentTime=((e.clientX-rect.left)/rect.width)*audio1.duration;
+  const r=this.getBoundingClientRect();
+  audio1.currentTime=((e.clientX-r.left)/r.width)*audio1.duration;
 });
 
-// ── LYRIC SYNC ──
-let lastActive = -1;
+let lastActive=-1;
 audio1.addEventListener('timeupdate',()=>{
-  const t = audio1.currentTime;
-  const dur = audio1.duration || 1;
-  document.getElementById('fill1').style.width = ((t/dur)*100)+'%';
-  document.getElementById('cur1').textContent = fmt(t);
-
-  // find current active line
-  let active = -1;
-  for(let i = lyricsData.length-1; i >= 0; i--){
-    if(t >= lyricsData[i].t){ active = i; break; }
-  }
-  if(active === lastActive) return;
-  lastActive = active;
-
+  const t=audio1.currentTime,dur=audio1.duration||1;
+  document.getElementById('fill1').style.width=((t/dur)*100)+'%';
+  document.getElementById('cur1').textContent=fmt(t);
+  let active=-1;
+  for(let i=lyricsData.length-1;i>=0;i--){if(t>=lyricsData[i].t){active=i;break;}}
+  if(active===lastActive)return;
+  lastActive=active;
   els1.forEach((el,i)=>{
     el.classList.remove('active','past');
-    if(i < active) el.classList.add('past');
-    else if(i === active) el.classList.add('active');
+    if(i<active)el.classList.add('past');
+    else if(i===active)el.classList.add('active');
   });
-  if(active >= 0) els1[active].scrollIntoView({behavior:'smooth',block:'center'});
+  if(active>=0)els1[active].scrollIntoView({behavior:'smooth',block:'center'});
 });
 </script>
 </body>
