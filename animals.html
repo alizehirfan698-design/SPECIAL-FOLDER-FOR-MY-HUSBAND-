@@ -32,8 +32,6 @@ header{text-align:center;padding:2.5rem 1rem 1rem;position:relative;z-index:1;}
 header h1{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,5vw,2.6rem);}
 header h1 span{color:var(--pink);}
 header p{color:var(--muted);font-size:14px;margin-top:0.4rem;}
-
-/* ── MUSIC PLAYER ── */
 .music-bar{display:flex;justify-content:center;margin:1.2rem 0 0.5rem;position:relative;z-index:1;}
 .player-wrap{
   background:rgba(212,83,126,0.07);
@@ -52,8 +50,7 @@ header p{color:var(--muted);font-size:14px;margin-top:0.4rem;}
   display:flex;align-items:center;justify-content:center;
   font-size:1.3rem;
   box-shadow:0 0 16px rgba(212,83,126,0.4);
-  animation:discSpin 4s linear infinite paused;
-}
+  animation:discSpin 4s linear infinite paused;}
 .player-disc.spinning{animation-play-state:running;}
 @keyframes discSpin{to{transform:rotate(360deg)}}
 .player-info .song-title{font-family:'Playfair Display',serif;font-size:14px;color:var(--text);}
@@ -75,7 +72,6 @@ header p{color:var(--muted);font-size:14px;margin-top:0.4rem;}
 .vol-btn:hover{color:var(--pink);}
 .vol-slider{-webkit-appearance:none;appearance:none;width:70px;height:3px;border-radius:99px;background:rgba(212,83,126,0.2);outline:none;cursor:pointer;}
 .vol-slider::-webkit-slider-thumb{-webkit-appearance:none;width:11px;height:11px;border-radius:50%;background:var(--pink);cursor:pointer;}
-
 main{max-width:900px;margin:0 auto;padding:1rem 1rem 4rem;position:relative;z-index:1;}
 .intro-card{background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:1.5rem 2rem;text-align:center;margin-bottom:2.5rem;animation:fadeUp 0.6s ease both;}
 @keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
@@ -154,8 +150,7 @@ main{max-width:900px;margin:0 auto;padding:1rem 1rem 4rem;position:relative;z-in
   <p>a little universe where every creature is us</p>
 </header>
 
-<!-- ── MUSIC PLAYER using Love_Me_Not.mp3 ── -->
-<audio id="bg-audio" src="Love_Me_Not.mp3" preload="metadata"></audio>
+<audio id="bg-audio" src="Love Me Not.mp3" preload="metadata"></audio>
 <div class="music-bar">
   <div class="player-wrap">
     <div class="player-top">
@@ -278,7 +273,7 @@ main{max-width:900px;margin:0 auto;padding:1rem 1rem 4rem;position:relative;z-in
 const starsEl=document.getElementById('stars-bg');
 for(let i=0;i<80;i++){const s=document.createElement('div');s.className='star-dot';const sz=Math.random()*2.5+0.5;s.style.cssText=`width:${sz}px;height:${sz}px;left:${Math.random()*100}%;top:${Math.random()*100}%;--d:${(Math.random()*3+1).toFixed(1)}s;animation-delay:${(Math.random()*4).toFixed(1)}s`;starsEl.appendChild(s);}
 const heartsEl=document.getElementById('floating-hearts');
-['🤍','🐾','🦋','⭐','💫','🌙','🐺','🦌'].forEach((e,i)=>{const h=document.createElement('div');h.className='fheart';h.textContent=e;h.style.cssText=`left:${Math.random()*100}%;--d:${(Math.random()*8+6).toFixed(1)}s;--delay:${(Math.random()*8).toFixed(1)}s`;heartsEl.appendChild(h);});
+['🤍','🐾','🦋','⭐','💫','🌙','🐺','🦌'].forEach(e=>{const h=document.createElement('div');h.className='fheart';h.textContent=e;h.style.cssText=`left:${Math.random()*100}%;--d:${(Math.random()*8+6).toFixed(1)}s;--delay:${(Math.random()*8).toFixed(1)}s`;heartsEl.appendChild(h);});
 
 const audio=document.getElementById('bg-audio');
 const playBtn=document.getElementById('play-btn');
