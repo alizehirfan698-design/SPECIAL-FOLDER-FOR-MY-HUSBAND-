@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>🎤 Singing — Our Memory Space</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;1,500&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --blue:#4A90D9;--blue-soft:#5BA3E8;
+  --blue-glow:rgba(74,144,217,0.15);--blue-border:rgba(74,144,217,0.25);
+  --bg:#070d1a;--surface:rgba(10,20,45,0.85);--surface2:rgba(15,28,60,0.9);
+  --text:#e8f0ff;--muted:#7a9cc4;
+}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;
+  background-image:radial-gradient(ellipse at 15% 20%,rgba(74,144,217,0.12) 0%,transparent 55%),
+  radial-gradient(ellipse at 85% 70%,rgba(50,100,200,0.1) 0%,transparent 55%),
+  radial-gradient(ellipse at 50% 50%,rgba(20,40,100,0.3) 0%,transparent 80%);}
+.stars-bg{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden;}
+.star-dot{position:absolute;border-radius:50%;background:#fff;animation:twinkle var(--d) ease-in-out infinite;}
+@keyframes twinkle{0%,100%{opacity:0.05;transform:scale(1)}50%{opacity:0.9;transform:scale(1.4)}}
+.particles{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden;}
+.particle{position:absolute;bottom:-20px;animation:floatUp var(--d) ease-in infinite;animation-delay:var(--delay);}
+@keyframes floatUp{0%{transform:translateY(0) rotate(0deg);opacity:0.6}100%{transform:translateY(-110vh) rotate(360deg);opacity:0}}
+nav{display:flex;justify-content:center;gap:8px;padding:1.2rem 1rem;flex-wrap:wrap;position:relative;z-index:1;}
+nav a{padding:8px 20px;border-radius:999px;border:1px solid var(--blue-border);color:var(--muted);font-size:13px;text-decoration:none;transition:all 0.2s;}
+nav a:hover,nav a.active{color:var(--blue-soft);border-color:var(--blue-soft);background:var(--blue-glow);}
+header{text-align:center;padding:2.5rem 1rem 0.5rem;position:relative;z-index:1;}
+header h1{font-family:'Playfair Display',serif;font-size:clamp(1.6rem,4vw,2.4rem);color:var(--text);}
+header h1 span{color:var(--blue-soft);}
+header p{color:var(--muted);font-size:13px;margin-top:0.4rem;letter-spacing:0.04em;}
+main{max-width:680px;margin:0 auto;padding:1.5rem 1rem 6rem;position:relative;z-index:1;}
+
+/* ── PLAYER CARD ── */
+.player-card{
+  background:var(--surface);border:1px solid var(--blue-border);border-radius:20px;
+  padding:2rem;margin-bottom:1.5rem;backdrop-filter:blur(12px);
+  box-shadow:0 4px 40px rgba(0,0,0,0.3),inset 0 1px 0 rgba(74,144,217,0.1);
+  position:relative;overflow:hidden;animation:fadeUp 0.5s ease both;
+}
+.player-card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(74,144,217,0.4),transparent);}
+.song-meta{display:flex;align-items:center;gap:1rem;margin-bottom:1.5rem;}
+.song-disc{width:52px;height:52px;border-radius:50%;
+  background:linear-gradient(135deg,var(--blue),var(--blue-soft));
+  display:flex;align-items:center;justify-content:center;font-size:1.4rem;
+  box-shadow:0 0 20px rgba(74,144,217,0.4);
+  animation:discSpin 4s linear infinite paused;}
+.song-disc.spinning{animation-play-state:running;}
+@keyframes discSpin{to{transform:rotate(360deg)}}
+.song-name{font-family:'Playfair Display',serif;font-size:1.15rem;color:var(--text);}
+.song-artist{font-size:12px;color:var(--muted);margin-top:3px;}
+
+/* ── CUSTOM AUDIO PLAYER ── */
+.audio-controls{display:flex;flex-direction:column;gap:12px;}
+.progress-row{display:flex;align-items:center;gap:10px;}
+.progress-track{flex:1;height:5px;background:var(--blue-border);border-radius:99px;cursor:pointer;position:relative;}
+.progress-fill{height:100%;width:0%;background:linear-gradient(90deg,var(--blue),var(--blue-soft));border-radius:99px;transition:width 0.25s linear;pointer-events:none;}
+.time-text{font-size:12px;color:var(--muted);min-width:38px;text-align:right;}
+.time-dur{font-size:12px;color:var(--muted);min-width:38px;}
+.btn-row{display:flex;align-items:center;justify-content:center;gap:16px;}
+.play-btn{width:52px;height:52px;border-radius:50%;border:none;
+  background:linear-gradient(135deg,var(--blue),var(--blue-soft));
+  color:#fff;font-size:20px;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 0 20px rgba(74,144,217,0.4);transition:transform 0.15s,box-shadow 0.15s;}
+.play-btn:hover{transform:scale(1.08);box-shadow:0 0 30px rgba(74,144,217,0.6);}
+.vol-btn{background:none;border:none;color:var(--muted);font-size:18px;cursor:pointer;padding:6px;transition:color 0.2s;}
+.vol-btn:hover{color:var(--blue-soft);}
+.vol-slider{-webkit-appearance:none;appearance:none;width:80px;height:3px;border-radius:99px;background:var(--blue-border);outline:none;cursor:pointer;}
+.vol-slider::-webkit-slider-thumb{-webkit-appearance:none;width:12px;height:12px;border-radius:50%;background:var(--blue-soft);cursor:pointer;}
+
+/* ── LYRICS CARD ── */
+.lyrics-card{
+  background:var(--surface);border:1px solid var(--blue-border);border-radius:20px;
+  padding:2rem;backdrop-filter:blur(12px);
+  box-shadow:0 4px 40px rgba(0,0,0,0.3),inset 0 1px 0 rgba(74,144,217,0.1);
+  position:relative;overflow:hidden;animation:fadeUp 0.6s ease 0.15s both;
+}
+.lyrics-card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(74,144,217,0.4),transparent);}
+.lyrics-header{font-family:'Playfair Display',serif;font-size:1rem;color:var(--blue-soft);
+  margin-bottom:1.5rem;display:flex;align-items:center;gap:8px;}
+.lyrics-header::before{content:'🎤';font-size:16px;}
+.lyric-line{font-size:15px;line-height:2.2;color:rgba(232,240,255,0.25);text-align:center;
+  transition:all 0.3s ease;padding:2px 8px;border-radius:8px;cursor:default;}
+.lyric-line.active{color:#fff;font-size:18px;font-weight:500;transform:scale(1.05);
+  text-shadow:0 0 28px rgba(74,144,217,0.8);background:rgba(74,144,217,0.08);}
+.lyric-line.past{color:rgba(232,240,255,0.45);}
+.lyric-line.section{font-size:11px;color:var(--muted);letter-spacing:0.14em;
+  text-transform:uppercase;margin-top:1.4rem;margin-bottom:0.2rem;font-style:italic;opacity:0.6;}
+.sync-note{text-align:center;font-size:12px;color:var(--muted);margin-top:1.2rem;line-height:1.7;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+@media(max-width:480px){.player-card,.lyrics-card{padding:1.3rem 1rem;}.vol-slider{width:55px;}}
+</style>
+</head>
+<body>
+<div class="stars-bg" id="stars-bg"></div>
+<div class="particles" id="particles"></div>
+
+<header>
+  <h1>our <span>songs</span> 🎤</h1>
+  <p>alizeh & omer — the words that say it all</p>
+</header>
+
+<nav>
+  <a href="index.html">💙 home</a>
+  <a href="gallery.html">📸 our memories</a>
+  <a href="animals.html">🐾 our animal selves</a>
+  <a href="quiz.html">📝 our quiz</a>
+  <a href="singing.html" class="active">🎤 singing</a>
+</nav>
+
+<main>
+
+  <!-- ══ AAPKI NAZRON NE SAMJHA ══ -->
+  <div class="player-card">
+    <div class="song-meta">
+      <div class="song-disc" id="disc1">🎶</div>
+      <div>
+        <div class="song-name">Aapki Nazron Ne Samjha</div>
+        <div class="song-artist">Lata Mangeshkar</div>
+      </div>
+    </div>
+    <audio id="audio1" src="Aapki_Nazron_Ne_Samjha_KoshalWorld_Com_.mp3" preload="metadata"></audio>
+    <div class="audio-controls">
+      <div class="progress-row">
+        <span class="time-dur" id="cur1">0:00</span>
+        <div class="progress-track" id="track1">
+          <div class="progress-fill" id="fill1"></div>
+        </div>
+        <span class="time-text" id="dur1">0:00</span>
+      </div>
+      <div class="btn-row">
+        <button class="vol-btn" id="mute1" onclick="toggleMute(1)">🔊</button>
+        <input type="range" class="vol-slider" min="0" max="1" step="0.05" value="1" oninput="setVol(1,this.value)">
+        <button class="play-btn" id="play1" onclick="togglePlay(1)">▶</button>
+        <span style="width:80px"></span>
+      </div>
+    </div>
+  </div>
+
+  <div class="lyrics-card">
+    <div class="lyrics-header">lyrics — aapki nazron ne samjha</div>
+    <div id="lyrics1"></div>
+    <p class="sync-note">💙 lyrics highlight in real time as the song plays</p>
+  </div>
+
+</main>
+
+<script>
+// ── STARS ──
+const starsEl=document.getElementById('stars-bg');
+for(let i=0;i<120;i++){
+  const s=document.createElement('div');s.className='star-dot';
+  const sz=Math.random()*2+0.4;
+  s.style.cssText=`width:${sz}px;height:${sz}px;left:${Math.random()*100}%;top:${Math.random()*100}%;--d:${(Math.random()*4+1).toFixed(1)}s;animation-delay:${(Math.random()*5).toFixed(1)}s`;
+  starsEl.appendChild(s);
+}
+// ── PARTICLES ──
+const pEl=document.getElementById('particles');
+['💙','✨','⭐','💫','🌙','💎'].forEach(e=>{
+  const h=document.createElement('div');h.className='particle';h.textContent=e;
+  h.style.cssText=`left:${Math.random()*100}%;font-size:${Math.random()*8+10}px;--d:${(Math.random()*10+7).toFixed(1)}s;--delay:${(Math.random()*10).toFixed(1)}s`;
+  pEl.appendChild(h);
+});
+
+// ══════════════════════════════════════════════
+// LYRICS — timestamps mapped to actual audio file
+// ══════════════════════════════════════════════
+const lyricsData = [
+  // ── MUKHDA (repeating refrain) ──
+  { t: 9.2,  text: "Aapki nazron ne samjha",           type: "lyric"   },
+  { t: 11.1, text: "Pyar ke kabil mujhe",               type: "lyric"   },
+  { t: 16.2, text: "Dil ki ae dhadkan thaher ja",       type: "lyric"   },
+  { t: 20.1, text: "Mil gayi manzil mujhe",             type: "lyric"   },
+  { t: 23.2, text: "Aapki nazron ne samjha",            type: "lyric"   },
+
+  // ── ANTARA 1 ──
+  { t: 26.1, text: "— ✦ —",                             type: "section" },
+  { t: 30.6, text: "Ji hamein manzoor hai",             type: "lyric"   },
+  { t: 35.5, text: "Aapka ye faisla",                   type: "lyric"   },
+  { t: 40.9, text: "Ji hamein manzoor hai",             type: "lyric"   },
+  { t: 46.3, text: "Aapka ye faisla",                   type: "lyric"   },
+  { t: 51.8, text: "Keh rahi hai har nazar",            type: "lyric"   },
+  { t: 56.0, text: "Banda parvar shukriya",             type: "lyric"   },
+  { t: 61.8, text: "Hanske apni zindagi mein",          type: "lyric"   },
+  { t: 66.9, text: "Kar liya shamil mujhe",             type: "lyric"   },
+
+  // ── MUKHDA ──
+  { t: 69.7, text: "— ✦ —",                             type: "section" },
+  { t: 71.4, text: "Dil ki ae dhadkan thaher ja",       type: "lyric"   },
+  { t: 74.6, text: "Mil gayi manzil mujhe",             type: "lyric"   },
+  { t: 76.9, text: "Aapki nazron ne samjha",            type: "lyric"   },
+
+  // ── ANTARA 2 ──
+  { t: 78.9, text: "— ✦ —",                             type: "section" },
+  { t: 82.8, text: "Aapki manzil hoon main",            type: "lyric"   },
+  { t: 85.9, text: "Meri manzil aap hain",              type: "lyric"   },
+  { t: 88.7, text: "Aapki manzil hoon main",            type: "lyric"   },
+  { t: 93.1, text: "Meri manzil aap hain",              type: "lyric"   },
+  { t: 98.1, text: "Kyon main toofaan se daroon",       type: "lyric"   },
+  { t: 101.3,text: "Mere saahil aap hain",              type: "lyric"   },
+  { t: 104.7,text: "Koi tufaanon se keh de",            type: "lyric"   },
+  { t: 108.7,text: "Mil gaya saahil mujhe",             type: "lyric"   },
+
+  // ── MUKHDA ──
+  { t: 112.7,text: "— ✦ —",                             type: "section" },
+  { t: 115.2,text: "Dil ki ae dhadkan thaher ja",       type: "lyric"   },
+  { t: 118.6,text: "Mil gayi manzil mujhe",             type: "lyric"   },
+  { t: 122.5,text: "Aapki nazron ne samjha",            type: "lyric"   },
+
+  // ── ANTARA 3 ──
+  { t: 125.0,text: "— ✦ —",                             type: "section" },
+  { t: 131.9,text: "Pad gayi dil par meri",             type: "lyric"   },
+  { t: 136.0,text: "Aapki parchhaiyan",                 type: "lyric"   },
+  { t: 140.3,text: "Pad gayi dil par meri",             type: "lyric"   },
+  { t: 145.3,text: "Aapki parchhaiyan",                 type: "lyric"   },
+  { t: 151.2,text: "Har taraf bajne lagin",             type: "lyric"   },
+  { t: 154.8,text: "Saikado shahnaaiyan",               type: "lyric"   },
+  { t: 159.8,text: "Do jahaan ki aaj khushiyan",        type: "lyric"   },
+  { t: 164.8,text: "Ho gayi haasil mujhe",              type: "lyric"   },
+
+  // ── FINAL MUKHDA ──
+  { t: 170.6,text: "— ✦ —",                             type: "section" },
+  { t: 175.6,text: "Aapki nazron ne samjha",            type: "lyric"   },
+  { t: 179.7,text: "Pyar ke kabil mujhe",               type: "lyric"   },
+  { t: 184.1,text: "Dil ki ae dhadkan thaher ja",       type: "lyric"   },
+  { t: 186.8,text: "Mil gayi manzil mujhe",             type: "lyric"   },
+  { t: 191.2,text: "Aapki nazron ne samjha",            type: "lyric"   },
+  { t: 194.0,text: "Pyar ke kabil mujhe",               type: "lyric"   },
+  { t: 197.8,text: "Dil ki ae dhadkan thaher ja",       type: "lyric"   },
+  { t: 203.5,text: "Mil gayi manzil mujhe",             type: "lyric"   },
+  { t: 207.2,text: "Aapki nazron ne samjha",            type: "lyric"   },
+  { t: 209.8,text: "Pyar ke kabil mujhe",               type: "lyric"   },
+  { t: 212.8,text: "Dil ki ae dhadkan thaher ja",       type: "lyric"   },
+  { t: 216.5,text: "Mil gayi manzil mujhe",             type: "lyric"   },
+  { t: 219.8,text: "Aapki nazron ne samjha",            type: "lyric"   },
+  { t: 222.6,text: "Aapki nazron ne samjha",            type: "lyric"   },
+  { t: 226.1,text: "Aapki nazron ne samjha 💙",         type: "lyric"   },
+];
+
+// ── BUILD LYRICS DOM ──
+function buildLyrics(data, containerId) {
+  const c = document.getElementById(containerId);
+  return data.map(line => {
+    const div = document.createElement('div');
+    div.className = 'lyric-line' + (line.type === 'section' ? ' section' : '');
+    div.textContent = line.text;
+    c.appendChild(div);
+    return div;
+  });
+}
+const els1 = buildLyrics(lyricsData, 'lyrics1');
+
+// ── PLAYER ──
+const audio1 = document.getElementById('audio1');
+const play1btn = document.getElementById('play1');
+const disc1 = document.getElementById('disc1');
+let playing1 = false;
+
+function fmt(s){const m=Math.floor(s/60);const sec=Math.floor(s%60);return m+':'+(sec<10?'0':'')+sec;}
+
+audio1.addEventListener('loadedmetadata',()=>{document.getElementById('dur1').textContent=fmt(audio1.duration);});
+
+function togglePlay(n){
+  if(n===1){
+    if(playing1){audio1.pause();play1btn.textContent='▶';disc1.classList.remove('spinning');}
+    else{audio1.play().catch(()=>{});play1btn.textContent='⏸';disc1.classList.add('spinning');}
+    playing1=!playing1;
+  }
+}
+function toggleMute(n){if(n===1){audio1.muted=!audio1.muted;document.getElementById('mute1').textContent=audio1.muted?'🔇':'🔊';}}
+function setVol(n,v){if(n===1)audio1.volume=v;}
+
+audio1.addEventListener('ended',()=>{play1btn.textContent='▶';disc1.classList.remove('spinning');playing1=false;});
+
+document.getElementById('track1').addEventListener('click',function(e){
+  const rect=this.getBoundingClientRect();
+  audio1.currentTime=((e.clientX-rect.left)/rect.width)*audio1.duration;
+});
+
+// ── LYRIC SYNC ──
+let lastActive = -1;
+audio1.addEventListener('timeupdate',()=>{
+  const t = audio1.currentTime;
+  const dur = audio1.duration || 1;
+  document.getElementById('fill1').style.width = ((t/dur)*100)+'%';
+  document.getElementById('cur1').textContent = fmt(t);
+
+  // find current active line
+  let active = -1;
+  for(let i = lyricsData.length-1; i >= 0; i--){
+    if(t >= lyricsData[i].t){ active = i; break; }
+  }
+  if(active === lastActive) return;
+  lastActive = active;
+
+  els1.forEach((el,i)=>{
+    el.classList.remove('active','past');
+    if(i < active) el.classList.add('past');
+    else if(i === active) el.classList.add('active');
+  });
+  if(active >= 0) els1[active].scrollIntoView({behavior:'smooth',block:'center'});
+});
+</script>
+</body>
+</html>
